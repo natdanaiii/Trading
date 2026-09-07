@@ -1,0 +1,1275 @@
+{
+  "log_schema_version": 1,
+  "run_info": {
+    "generated_at_utc": "2026-09-07T09:27:47.073892+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "source_main_commit_sha": "b4f39f0a3359ed6779bd537bf9d1cb5d8a683a73",
+    "source_notebook_blob_sha": "81cd191cedfe0a3785bb488a75d713274f8e0309",
+    "symbol": "BTCUSDT",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "timeframe": "1m",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "parameters": {
+    "backtest_capital": 3000.0,
+    "backtest_floor": 38000.0,
+    "backtest_ceiling": 127000.0,
+    "backtest_gap": 1000.0,
+    "price_rounding": 1000.0,
+    "number_of_grids": 89,
+    "capital_per_grid": 33.70786516853933,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001,
+    "historical_low": 38555.0,
+    "historical_high": 126199.63
+  },
+  "verification": {
+    "status": "PASS",
+    "scenarios": [
+      {
+        "scenario": "Excel first-grid profit",
+        "expected": "0.175064439834",
+        "actual": "0.175064439834",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Upward-only candle",
+        "expected": "BUY count = 0",
+        "actual": "BUY count = 0",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Downward 125 -> 115 crossing",
+        "expected": "BUY 120 only",
+        "actual": "BUY 120",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Cash after one 100-USDT BUY",
+        "expected": "200.00 USDT",
+        "actual": "200.00 USDT",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Same-candle BUY -> SELL protection",
+        "expected": "SELL count = 0",
+        "actual": "SELL count = 0",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Later-candle completed cycle",
+        "expected": "BUY -> SELL",
+        "actual": "BUY -> SELL",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Paired SELL target",
+        "expected": "SELL 130",
+        "actual": "SELL 130",
+        "result": "PASS"
+      },
+      {
+        "scenario": "120 -> 130 Grid Cashflow",
+        "expected": "8.116775 USDT",
+        "actual": "8.116775 USDT",
+        "result": "PASS"
+      },
+      {
+        "scenario": "Position state after completed cycle",
+        "expected": "Open positions = 0",
+        "actual": "Open positions = 0",
+        "result": "PASS"
+      }
+    ]
+  },
+  "system_audit": {
+    "status": "PASS",
+    "checks": [
+      {
+        "test": "Grid spacing = configured Gap",
+        "status": "PASS",
+        "expected": 1000.0,
+        "actual": "all levels"
+      },
+      {
+        "test": "Cash movement identity",
+        "status": "PASS",
+        "expected": "<= 1e-9",
+        "actual": 0.0
+      },
+      {
+        "test": "Cash reconciliation",
+        "status": "PASS",
+        "expected": 2218.147456419254,
+        "actual": 2218.1474564194305
+      },
+      {
+        "test": "Grid Cashflow = realized profit",
+        "status": "PASS",
+        "expected": 532.7541979922917,
+        "actual": 532.7541979922901
+      },
+      {
+        "test": "Cash + BTC x Close = Equity",
+        "status": "PASS",
+        "expected": "<= 1e-8",
+        "actual": 0.0
+      },
+      {
+        "test": "Cash never negative",
+        "status": "PASS",
+        "expected": ">= 0",
+        "actual": 1952.3341411199283
+      },
+      {
+        "test": "Monthly cumulative Grid Cashflow = realized profit",
+        "status": "PASS",
+        "expected": 532.7541979922917,
+        "actual": 532.7541979922901
+      },
+      {
+        "test": "Sum Monthly Portfolio Net P&L = total portfolio gain",
+        "status": "PASS",
+        "expected": 306.0649618653997,
+        "actual": 306.0649618653997
+      },
+      {
+        "test": "Final cumulative Portfolio P&L = total portfolio gain",
+        "status": "PASS",
+        "expected": 306.0649618653997,
+        "actual": 306.0649618653997
+      }
+    ]
+  },
+  "backtest_summary": {
+    "initial_capital": 3000.0,
+    "final_equity": 3306.0649618653997,
+    "net_return": 0.1020216539551333,
+    "annualized_return": 0.04973736303169406,
+    "max_drawdown": -0.08281687595401233,
+    "calmar_ratio": 0.6005703844626171,
+    "completed_cycles": 1566,
+    "open_positions": 39,
+    "final_cash": 2218.1474564194305,
+    "final_btc": 0.012412317163383004,
+    "realized_profit": 532.7541979922917,
+    "unrealized_pnl": -226.68923612689196,
+    "buy_fee_btc": 0.0006519776533585859,
+    "buy_fee_usdt_equiv": 54.101123595505086,
+    "sell_fee_usdt": 53.3726436956204,
+    "total_fee_usdt_equiv": 107.47376729112548
+  },
+  "reconciliation": {
+    "net_cash_movement": -781.8525435807458,
+    "total_grid_cashflow": 532.7541979922901,
+    "portfolio_gain": 306.0649618653997
+  },
+  "monthly_grid_cashflow": [
+    {
+      "month": "2024-01",
+      "monthly_grid_cashflow": 17.740325344276705,
+      "completed_cycles": 25,
+      "cumulative_grid_cashflow": 17.740325344276705
+    },
+    {
+      "month": "2024-02",
+      "monthly_grid_cashflow": 18.874633780108148,
+      "completed_cycles": 33,
+      "cumulative_grid_cashflow": 36.61495912438485
+    },
+    {
+      "month": "2024-03",
+      "monthly_grid_cashflow": 43.72572060324848,
+      "completed_cycles": 99,
+      "cumulative_grid_cashflow": 80.34067972763333
+    },
+    {
+      "month": "2024-04",
+      "monthly_grid_cashflow": 27.733219118592515,
+      "completed_cycles": 61,
+      "cumulative_grid_cashflow": 108.07389884622584
+    },
+    {
+      "month": "2024-05",
+      "monthly_grid_cashflow": 17.575551036691316,
+      "completed_cycles": 38,
+      "cumulative_grid_cashflow": 125.64944988291717
+    },
+    {
+      "month": "2024-06",
+      "monthly_grid_cashflow": 7.648570928465027,
+      "completed_cycles": 17,
+      "cumulative_grid_cashflow": 133.2980208113822
+    },
+    {
+      "month": "2024-07",
+      "monthly_grid_cashflow": 23.068315064374367,
+      "completed_cycles": 48,
+      "cumulative_grid_cashflow": 156.36633587575656
+    },
+    {
+      "month": "2024-08",
+      "monthly_grid_cashflow": 33.014978737989665,
+      "completed_cycles": 63,
+      "cumulative_grid_cashflow": 189.3813146137462
+    },
+    {
+      "month": "2024-09",
+      "monthly_grid_cashflow": 14.609100870481214,
+      "completed_cycles": 29,
+      "cumulative_grid_cashflow": 203.9904154842274
+    },
+    {
+      "month": "2024-10",
+      "monthly_grid_cashflow": 13.630293775216003,
+      "completed_cycles": 30,
+      "cumulative_grid_cashflow": 217.6207092594434
+    },
+    {
+      "month": "2024-11",
+      "monthly_grid_cashflow": 31.698633196372192,
+      "completed_cycles": 97,
+      "cumulative_grid_cashflow": 249.3193424558156
+    },
+    {
+      "month": "2024-12",
+      "monthly_grid_cashflow": 32.63088145870715,
+      "completed_cycles": 117,
+      "cumulative_grid_cashflow": 281.9502239145227
+    },
+    {
+      "month": "2025-01",
+      "monthly_grid_cashflow": 34.75282961079924,
+      "completed_cycles": 130,
+      "cumulative_grid_cashflow": 316.70305352532193
+    },
+    {
+      "month": "2025-02",
+      "monthly_grid_cashflow": 22.096753391803055,
+      "completed_cycles": 74,
+      "cumulative_grid_cashflow": 338.799806917125
+    },
+    {
+      "month": "2025-03",
+      "monthly_grid_cashflow": 32.774167920773984,
+      "completed_cycles": 100,
+      "cumulative_grid_cashflow": 371.573974837899
+    },
+    {
+      "month": "2025-04",
+      "monthly_grid_cashflow": 25.550031473129124,
+      "completed_cycles": 76,
+      "cumulative_grid_cashflow": 397.12400631102815
+    },
+    {
+      "month": "2025-05",
+      "monthly_grid_cashflow": 15.012880645696306,
+      "completed_cycles": 58,
+      "cumulative_grid_cashflow": 412.1368869567245
+    },
+    {
+      "month": "2025-06",
+      "monthly_grid_cashflow": 12.019819420324161,
+      "completed_cycles": 47,
+      "cumulative_grid_cashflow": 424.15670637704864
+    },
+    {
+      "month": "2025-07",
+      "monthly_grid_cashflow": 10.312572976557313,
+      "completed_cycles": 46,
+      "cumulative_grid_cashflow": 434.46927935360594
+    },
+    {
+      "month": "2025-08",
+      "monthly_grid_cashflow": 11.2846559460016,
+      "completed_cycles": 50,
+      "cumulative_grid_cashflow": 445.7539352996075
+    },
+    {
+      "month": "2025-09",
+      "monthly_grid_cashflow": 7.914917617150046,
+      "completed_cycles": 34,
+      "cumulative_grid_cashflow": 453.66885291675754
+    },
+    {
+      "month": "2025-10",
+      "monthly_grid_cashflow": 32.623273534182594,
+      "completed_cycles": 139,
+      "cumulative_grid_cashflow": 486.29212645094015
+    },
+    {
+      "month": "2025-11",
+      "monthly_grid_cashflow": 25.001108179094217,
+      "completed_cycles": 86,
+      "cumulative_grid_cashflow": 511.29323463003436
+    },
+    {
+      "month": "2025-12",
+      "monthly_grid_cashflow": 21.460963362255654,
+      "completed_cycles": 69,
+      "cumulative_grid_cashflow": 532.7541979922901
+    }
+  ],
+  "monthly_portfolio_pnl": [
+    {
+      "month": "2024-01",
+      "beginning_equity": 3000.0,
+      "ending_equity": 3004.838711820802,
+      "portfolio_net_pnl": 4.838711820802018,
+      "monthly_return": 0.0016129039402673394,
+      "cumulative_portfolio_pnl": 4.838711820802018
+    },
+    {
+      "month": "2024-02",
+      "beginning_equity": 3004.838711820802,
+      "ending_equity": 3035.115138234423,
+      "portfolio_net_pnl": 30.27642641362081,
+      "monthly_return": 0.010075890694071433,
+      "cumulative_portfolio_pnl": 35.11513823442283
+    },
+    {
+      "month": "2024-03",
+      "beginning_equity": 3035.115138234423,
+      "ending_equity": 3079.24220958456,
+      "portfolio_net_pnl": 44.12707135013716,
+      "monthly_return": 0.014538845921939755,
+      "cumulative_portfolio_pnl": 79.24220958455999
+    },
+    {
+      "month": "2024-04",
+      "beginning_equity": 3079.24220958456,
+      "ending_equity": 3067.5331167513427,
+      "portfolio_net_pnl": -11.709092833217255,
+      "monthly_return": -0.0038025890905142544,
+      "cumulative_portfolio_pnl": 67.53311675134273
+    },
+    {
+      "month": "2024-05",
+      "beginning_equity": 3067.5331167513427,
+      "ending_equity": 3117.3156129372187,
+      "portfolio_net_pnl": 49.78249618587597,
+      "monthly_return": 0.01622883740489097,
+      "cumulative_portfolio_pnl": 117.3156129372187
+    },
+    {
+      "month": "2024-06",
+      "beginning_equity": 3117.3156129372187,
+      "ending_equity": 3105.1911993380454,
+      "portfolio_net_pnl": -12.124413599173295,
+      "monthly_return": -0.0038893763431766685,
+      "cumulative_portfolio_pnl": 105.19119933804541
+    },
+    {
+      "month": "2024-07",
+      "beginning_equity": 3105.1911993380454,
+      "ending_equity": 3137.2583845157633,
+      "portfolio_net_pnl": 32.067185177717874,
+      "monthly_return": 0.010326959958070812,
+      "cumulative_portfolio_pnl": 137.25838451576328
+    },
+    {
+      "month": "2024-08",
+      "beginning_equity": 3137.2583845157633,
+      "ending_equity": 3137.053199649156,
+      "portfolio_net_pnl": -0.20518486660739654,
+      "monthly_return": -6.540260363000572e-05,
+      "cumulative_portfolio_pnl": 137.05319964915589
+    },
+    {
+      "month": "2024-09",
+      "beginning_equity": 3137.053199649156,
+      "ending_equity": 3178.916569777641,
+      "portfolio_net_pnl": 41.86337012848526,
+      "monthly_return": 0.013344807200964015,
+      "cumulative_portfolio_pnl": 178.91656977764114
+    },
+    {
+      "month": "2024-10",
+      "beginning_equity": 3178.916569777641,
+      "ending_equity": 3215.2425742870796,
+      "portfolio_net_pnl": 36.32600450943846,
+      "monthly_return": 0.011427165108639323,
+      "cumulative_portfolio_pnl": 215.2425742870796
+    },
+    {
+      "month": "2024-11",
+      "beginning_equity": 3215.2425742870796,
+      "ending_equity": 3247.5840081316082,
+      "portfolio_net_pnl": 32.34143384452864,
+      "monthly_return": 0.010058785020815964,
+      "cumulative_portfolio_pnl": 247.58400813160824
+    },
+    {
+      "month": "2024-12",
+      "beginning_equity": 3247.5840081316082,
+      "ending_equity": 3245.1755192745177,
+      "portfolio_net_pnl": -2.4084888570905605,
+      "monthly_return": -0.0007416248051043355,
+      "cumulative_portfolio_pnl": 245.17551927451768
+    },
+    {
+      "month": "2025-01",
+      "beginning_equity": 3245.1755192745177,
+      "ending_equity": 3308.7165247989915,
+      "portfolio_net_pnl": 63.5410055244738,
+      "monthly_return": 0.019580144478187993,
+      "cumulative_portfolio_pnl": 308.7165247989915
+    },
+    {
+      "month": "2025-02",
+      "beginning_equity": 3308.7165247989915,
+      "ending_equity": 3232.3614896087797,
+      "portfolio_net_pnl": -76.35503519021177,
+      "monthly_return": -0.023076934701999115,
+      "cumulative_portfolio_pnl": 232.36148960877972
+    },
+    {
+      "month": "2025-03",
+      "beginning_equity": 3232.3614896087797,
+      "ending_equity": 3248.4891967780013,
+      "portfolio_net_pnl": 16.127707169221594,
+      "monthly_return": 0.004989450351103387,
+      "cumulative_portfolio_pnl": 248.48919677800131
+    },
+    {
+      "month": "2025-04",
+      "beginning_equity": 3248.4891967780013,
+      "ending_equity": 3358.7208078975937,
+      "portfolio_net_pnl": 110.23161111959234,
+      "monthly_return": 0.03393319307600747,
+      "cumulative_portfolio_pnl": 358.72080789759366
+    },
+    {
+      "month": "2025-05",
+      "beginning_equity": 3358.7208078975937,
+      "ending_equity": 3404.69869228434,
+      "portfolio_net_pnl": 45.977884386746155,
+      "monthly_return": 0.013689105768670965,
+      "cumulative_portfolio_pnl": 404.6986922843398
+    },
+    {
+      "month": "2025-06",
+      "beginning_equity": 3404.69869228434,
+      "ending_equity": 3421.152960218843,
+      "portfolio_net_pnl": 16.45426793450315,
+      "monthly_return": 0.004832811776205479,
+      "cumulative_portfolio_pnl": 421.15296021884296
+    },
+    {
+      "month": "2025-07",
+      "beginning_equity": 3421.152960218843,
+      "ending_equity": 3425.8735999780024,
+      "portfolio_net_pnl": 4.72063975915944,
+      "monthly_return": 0.0013798388479121003,
+      "cumulative_portfolio_pnl": 425.8735999780024
+    },
+    {
+      "month": "2025-08",
+      "beginning_equity": 3425.8735999780024,
+      "ending_equity": 3407.829334386417,
+      "portfolio_net_pnl": -18.044265591585372,
+      "monthly_return": -0.0052670552678012504,
+      "cumulative_portfolio_pnl": 407.82933438641703
+    },
+    {
+      "month": "2025-09",
+      "beginning_equity": 3407.829334386417,
+      "ending_equity": 3438.137693646578,
+      "portfolio_net_pnl": 30.30835926016107,
+      "monthly_return": 0.008893743285303962,
+      "cumulative_portfolio_pnl": 438.1376936465781
+    },
+    {
+      "month": "2025-10",
+      "beginning_equity": 3438.137693646578,
+      "ending_equity": 3445.92589887854,
+      "portfolio_net_pnl": 7.788205231961911,
+      "monthly_return": 0.0022652394772768795,
+      "cumulative_portfolio_pnl": 445.92589887854
+    },
+    {
+      "month": "2025-11",
+      "beginning_equity": 3445.92589887854,
+      "ending_equity": 3316.8122478411096,
+      "portfolio_net_pnl": -129.11365103743037,
+      "monthly_return": -0.037468493178988496,
+      "cumulative_portfolio_pnl": 316.81224784110964
+    },
+    {
+      "month": "2025-12",
+      "beginning_equity": 3316.8122478411096,
+      "ending_equity": 3306.0649618653997,
+      "portfolio_net_pnl": -10.747285975709929,
+      "monthly_return": -0.0032402455046122262,
+      "cumulative_portfolio_pnl": 306.0649618653997
+    }
+  ],
+  "diagnostics": {
+    "trade_event_count": 3171,
+    "buy_event_count": 1605,
+    "sell_event_count": 1566,
+    "completed_cycle_count": 1566,
+    "open_position_count": 39,
+    "first_10_trade_events": [
+      {
+        "event_id": 1,
+        "time": "2024-01-01T18:09:00+00:00",
+        "side": "BUY",
+        "grid_level": 84,
+        "price": 43000.0,
+        "base_amount": 0.0007831199372876928,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 7.839038411288216e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 3000.0,
+        "cash_after": 2966.2921348314608,
+        "btc_before": 0.0,
+        "btc_after": 0.0007831199372876928,
+        "cumulative_cash_movement": -33.70786516853933,
+        "cumulative_grid_cashflow": 0.0
+      },
+      {
+        "event_id": 2,
+        "time": "2024-01-01T23:28:00+00:00",
+        "side": "SELL",
+        "grid_level": 84,
+        "price": 44000.0,
+        "base_amount": 0.0007831199372876928,
+        "quote_amount": 34.42281996341783,
+        "fee_base": 0.0,
+        "fee_quote": 0.03445727724065849,
+        "realized_profit": 0.7149547948785013,
+        "cash_movement": 34.42281996341783,
+        "grid_cashflow": 0.7149547948785013,
+        "cash_before": 2966.2921348314608,
+        "cash_after": 3000.7149547948784,
+        "btc_before": 0.0007831199372876928,
+        "btc_after": 0.0,
+        "cumulative_cash_movement": 0.7149547948785013,
+        "cumulative_grid_cashflow": 0.7149547948785013
+      },
+      {
+        "event_id": 3,
+        "time": "2024-01-01T23:33:00+00:00",
+        "side": "BUY",
+        "grid_level": 83,
+        "price": 44000.0,
+        "base_amount": 0.0007653217568947907,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 7.660878447395302e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 3000.7149547948784,
+        "cash_after": 2967.007089626339,
+        "btc_before": 0.0,
+        "btc_after": 0.0007653217568947907,
+        "cumulative_cash_movement": -32.99291037366083,
+        "cumulative_grid_cashflow": 0.7149547948785013
+      },
+      {
+        "event_id": 4,
+        "time": "2024-01-02T00:57:00+00:00",
+        "side": "SELL",
+        "grid_level": 83,
+        "price": 45000.0,
+        "base_amount": 0.0007653217568947907,
+        "quote_amount": 34.405039581205315,
+        "fee_base": 0.0,
+        "fee_quote": 0.034439479060265586,
+        "realized_profit": 0.6971744126659871,
+        "cash_movement": 34.405039581205315,
+        "grid_cashflow": 0.6971744126659871,
+        "cash_before": 2967.007089626339,
+        "cash_after": 3001.4121292075447,
+        "btc_before": 0.0007653217568947907,
+        "btc_after": 0.0,
+        "cumulative_cash_movement": 1.4121292075444885,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 5,
+        "time": "2024-01-02T00:58:00+00:00",
+        "side": "BUY",
+        "grid_level": 82,
+        "price": 45000.0,
+        "base_amount": 0.000748314606741573,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 7.490636704119851e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 3001.4121292075447,
+        "cash_after": 2967.7042640390055,
+        "btc_before": 0.0,
+        "btc_after": 0.000748314606741573,
+        "cumulative_cash_movement": -32.29573596099484,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 6,
+        "time": "2024-01-03T11:55:00+00:00",
+        "side": "BUY",
+        "grid_level": 83,
+        "price": 44000.0,
+        "base_amount": 0.0007653217568947907,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 7.660878447395302e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2967.7042640390055,
+        "cash_after": 2933.9963988704662,
+        "btc_before": 0.000748314606741573,
+        "btc_after": 0.0015136363636363637,
+        "cumulative_cash_movement": -66.00360112953416,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 7,
+        "time": "2024-01-03T12:01:00+00:00",
+        "side": "BUY",
+        "grid_level": 84,
+        "price": 43000.0,
+        "base_amount": 0.0007831199372876928,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 7.839038411288216e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2933.9963988704662,
+        "cash_after": 2900.288533701927,
+        "btc_before": 0.0015136363636363637,
+        "btc_after": 0.0022967563009240566,
+        "cumulative_cash_movement": -99.71146629807349,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 8,
+        "time": "2024-01-03T12:08:00+00:00",
+        "side": "BUY",
+        "grid_level": 85,
+        "price": 42000.0,
+        "base_amount": 0.000801765650080257,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 8.025682182985555e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2900.288533701927,
+        "cash_after": 2866.580668533388,
+        "btc_before": 0.0022967563009240566,
+        "btc_after": 0.0030985219510043134,
+        "cumulative_cash_movement": -133.41933146661282,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 9,
+        "time": "2024-01-03T12:09:00+00:00",
+        "side": "BUY",
+        "grid_level": 86,
+        "price": 41000.0,
+        "base_amount": 0.000821320909838312,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 8.221430528912032e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2866.580668533388,
+        "cash_after": 2832.8728033648486,
+        "btc_before": 0.0030985219510043134,
+        "btc_after": 0.003919842860842625,
+        "cumulative_cash_movement": -167.12719663515213,
+        "cumulative_grid_cashflow": 1.4121292075444885
+      },
+      {
+        "event_id": 10,
+        "time": "2024-01-03T12:15:00+00:00",
+        "side": "SELL",
+        "grid_level": 86,
+        "price": 42000.0,
+        "base_amount": 0.000821320909838312,
+        "quote_amount": 34.460982734995895,
+        "fee_base": 0.0,
+        "fee_quote": 0.034495478213209106,
+        "realized_profit": 0.7531175664565666,
+        "cash_movement": 34.460982734995895,
+        "grid_cashflow": 0.7531175664565666,
+        "cash_before": 2832.8728033648486,
+        "cash_after": 2867.3337860998445,
+        "btc_before": 0.003919842860842625,
+        "btc_after": 0.0030985219510043134,
+        "cumulative_cash_movement": -132.66621390015624,
+        "cumulative_grid_cashflow": 2.165246774001055
+      }
+    ],
+    "last_10_trade_events": [
+      {
+        "event_id": 3162,
+        "time": "2025-12-29T09:32:00+00:00",
+        "side": "BUY",
+        "grid_level": 38,
+        "price": 89000.0,
+        "base_amount": 0.0003783613180154021,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.7874005807347557e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2284.294813971119,
+        "cash_after": 2250.5869488025796,
+        "btc_before": 0.011651294966920207,
+        "btc_after": 0.01202965628493561,
+        "cumulative_cash_movement": -749.413051197601,
+        "cumulative_grid_cashflow": 531.4858252069018
+      },
+      {
+        "event_id": 3163,
+        "time": "2025-12-29T09:45:00+00:00",
+        "side": "BUY",
+        "grid_level": 39,
+        "price": 88000.0,
+        "base_amount": 0.00038266087844739534,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.830439223697651e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2250.5869488025796,
+        "cash_after": 2216.8790836340404,
+        "btc_before": 0.01202965628493561,
+        "btc_after": 0.012412317163383004,
+        "cumulative_cash_movement": -783.1209163661404,
+        "cumulative_grid_cashflow": 531.4858252069018
+      },
+      {
+        "event_id": 3164,
+        "time": "2025-12-29T12:11:00+00:00",
+        "side": "BUY",
+        "grid_level": 40,
+        "price": 87000.0,
+        "base_amount": 0.0003870592793490895,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.8744672607516467e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2216.8790836340404,
+        "cash_after": 2183.171218465501,
+        "btc_before": 0.012412317163383004,
+        "btc_after": 0.012799376442732094,
+        "cumulative_cash_movement": -816.8287815346797,
+        "cumulative_grid_cashflow": 531.4858252069018
+      },
+      {
+        "event_id": 3165,
+        "time": "2025-12-29T14:32:00+00:00",
+        "side": "SELL",
+        "grid_level": 40,
+        "price": 88000.0,
+        "base_amount": 0.0003870592793490895,
+        "quote_amount": 34.02715536613716,
+        "fee_base": 0.0,
+        "fee_quote": 0.03406121658271988,
+        "realized_profit": 0.31929019759783017,
+        "cash_movement": 34.02715536613716,
+        "grid_cashflow": 0.31929019759783017,
+        "cash_before": 2183.171218465501,
+        "cash_after": 2217.1983738316385,
+        "btc_before": 0.012799376442732094,
+        "btc_after": 0.012412317163383004,
+        "cumulative_cash_movement": -782.8016261685425,
+        "cumulative_grid_cashflow": 531.8051154044997
+      },
+      {
+        "event_id": 3166,
+        "time": "2025-12-30T02:33:00+00:00",
+        "side": "BUY",
+        "grid_level": 40,
+        "price": 87000.0,
+        "base_amount": 0.0003870592793490895,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.8744672607516467e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2217.1983738316385,
+        "cash_after": 2183.4905086630993,
+        "btc_before": 0.012412317163383004,
+        "btc_after": 0.012799376442732094,
+        "cumulative_cash_movement": -816.5094913370818,
+        "cumulative_grid_cashflow": 531.8051154044997
+      },
+      {
+        "event_id": 3167,
+        "time": "2025-12-30T08:12:00+00:00",
+        "side": "SELL",
+        "grid_level": 40,
+        "price": 88000.0,
+        "base_amount": 0.0003870592793490895,
+        "quote_amount": 34.02715536613716,
+        "fee_base": 0.0,
+        "fee_quote": 0.03406121658271988,
+        "realized_profit": 0.31929019759783017,
+        "cash_movement": 34.02715536613716,
+        "grid_cashflow": 0.31929019759783017,
+        "cash_before": 2183.4905086630993,
+        "cash_after": 2217.5176640292366,
+        "btc_before": 0.012799376442732094,
+        "btc_after": 0.012412317163383004,
+        "cumulative_cash_movement": -782.4823359709446,
+        "cumulative_grid_cashflow": 532.1244056020976
+      },
+      {
+        "event_id": 3168,
+        "time": "2025-12-30T14:57:00+00:00",
+        "side": "SELL",
+        "grid_level": 39,
+        "price": 89000.0,
+        "base_amount": 0.00038266087844739534,
+        "quote_amount": 34.02276136363637,
+        "fee_base": 0.0,
+        "fee_quote": 0.03405681818181819,
+        "realized_profit": 0.3148961950970417,
+        "cash_movement": 34.02276136363637,
+        "grid_cashflow": 0.3148961950970417,
+        "cash_before": 2217.5176640292366,
+        "cash_after": 2251.5404253928727,
+        "btc_before": 0.012412317163383004,
+        "btc_after": 0.01202965628493561,
+        "cumulative_cash_movement": -748.4595746073082,
+        "cumulative_grid_cashflow": 532.4393017971946
+      },
+      {
+        "event_id": 3169,
+        "time": "2025-12-30T19:06:00+00:00",
+        "side": "BUY",
+        "grid_level": 39,
+        "price": 88000.0,
+        "base_amount": 0.00038266087844739534,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.830439223697651e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2251.5404253928727,
+        "cash_after": 2217.8325602243335,
+        "btc_before": 0.01202965628493561,
+        "btc_after": 0.012412317163383004,
+        "cumulative_cash_movement": -782.1674397758476,
+        "cumulative_grid_cashflow": 532.4393017971946
+      },
+      {
+        "event_id": 3170,
+        "time": "2025-12-31T11:42:00+00:00",
+        "side": "SELL",
+        "grid_level": 39,
+        "price": 89000.0,
+        "base_amount": 0.00038266087844739534,
+        "quote_amount": 34.02276136363637,
+        "fee_base": 0.0,
+        "fee_quote": 0.03405681818181819,
+        "realized_profit": 0.3148961950970417,
+        "cash_movement": 34.02276136363637,
+        "grid_cashflow": 0.3148961950970417,
+        "cash_before": 2217.8325602243335,
+        "cash_after": 2251.8553215879697,
+        "btc_before": 0.012412317163383004,
+        "btc_after": 0.01202965628493561,
+        "cumulative_cash_movement": -748.1446784122112,
+        "cumulative_grid_cashflow": 532.7541979922917
+      },
+      {
+        "event_id": 3171,
+        "time": "2025-12-31T15:12:00+00:00",
+        "side": "BUY",
+        "grid_level": 39,
+        "price": 88000.0,
+        "base_amount": 0.00038266087844739534,
+        "quote_amount": 33.70786516853933,
+        "fee_base": 3.830439223697651e-07,
+        "fee_quote": 0.0,
+        "realized_profit": 0.0,
+        "cash_movement": -33.70786516853933,
+        "grid_cashflow": 0.0,
+        "cash_before": 2251.8553215879697,
+        "cash_after": 2218.1474564194305,
+        "btc_before": 0.01202965628493561,
+        "btc_after": 0.012412317163383004,
+        "cumulative_cash_movement": -781.8525435807505,
+        "cumulative_grid_cashflow": 532.7541979922917
+      }
+    ],
+    "open_grid_positions": [
+      {
+        "level": 39,
+        "buy_price": 88000.0,
+        "sell_price": 89000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00038266087844739534,
+        "holding": true,
+        "buy_time": "2025-12-31T15:12:00+00:00"
+      },
+      {
+        "level": 38,
+        "buy_price": 89000.0,
+        "sell_price": 90000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003783613180154021,
+        "holding": true,
+        "buy_time": "2025-12-29T09:32:00+00:00"
+      },
+      {
+        "level": 37,
+        "buy_price": 90000.0,
+        "sell_price": 91000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003741573033707865,
+        "holding": true,
+        "buy_time": "2025-12-12T15:58:00+00:00"
+      },
+      {
+        "level": 36,
+        "buy_price": 91000.0,
+        "sell_price": 92000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003700456846524263,
+        "holding": true,
+        "buy_time": "2025-12-12T15:28:00+00:00"
+      },
+      {
+        "level": 35,
+        "buy_price": 92000.0,
+        "sell_price": 93000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003660234489496825,
+        "holding": true,
+        "buy_time": "2025-12-12T00:54:00+00:00"
+      },
+      {
+        "level": 34,
+        "buy_price": 93000.0,
+        "sell_price": 94000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003620877129394709,
+        "holding": true,
+        "buy_time": "2025-12-10T20:51:00+00:00"
+      },
+      {
+        "level": 33,
+        "buy_price": 94000.0,
+        "sell_price": 95000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00035823571599330624,
+        "holding": true,
+        "buy_time": "2025-11-17T15:19:00+00:00"
+      },
+      {
+        "level": 32,
+        "buy_price": 95000.0,
+        "sell_price": 96000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003544648137196925,
+        "holding": true,
+        "buy_time": "2025-11-17T14:53:00+00:00"
+      },
+      {
+        "level": 31,
+        "buy_price": 96000.0,
+        "sell_price": 97000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003507724719101124,
+        "holding": true,
+        "buy_time": "2025-11-14T17:48:00+00:00"
+      },
+      {
+        "level": 30,
+        "buy_price": 97000.0,
+        "sell_price": 98000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00034715626085949264,
+        "holding": true,
+        "buy_time": "2025-11-14T06:13:00+00:00"
+      },
+      {
+        "level": 29,
+        "buy_price": 98000.0,
+        "sell_price": 99000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003436138500343958,
+        "holding": true,
+        "buy_time": "2025-11-14T04:34:00+00:00"
+      },
+      {
+        "level": 28,
+        "buy_price": 99000.0,
+        "sell_price": 100000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003401430030643514,
+        "holding": true,
+        "buy_time": "2025-11-14T00:15:00+00:00"
+      },
+      {
+        "level": 27,
+        "buy_price": 100000.0,
+        "sell_price": 101000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003367415730337079,
+        "holding": true,
+        "buy_time": "2025-11-13T17:41:00+00:00"
+      },
+      {
+        "level": 26,
+        "buy_price": 101000.0,
+        "sell_price": 102000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003334074980531761,
+        "holding": true,
+        "buy_time": "2025-11-13T16:17:00+00:00"
+      },
+      {
+        "level": 25,
+        "buy_price": 102000.0,
+        "sell_price": 103000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003301387970918705,
+        "holding": true,
+        "buy_time": "2025-11-13T15:33:00+00:00"
+      },
+      {
+        "level": 24,
+        "buy_price": 103000.0,
+        "sell_price": 104000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003269335660521436,
+        "holding": true,
+        "buy_time": "2025-11-13T09:08:00+00:00"
+      },
+      {
+        "level": 23,
+        "buy_price": 104000.0,
+        "sell_price": 105000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.000323789974070873,
+        "holding": true,
+        "buy_time": "2025-11-12T14:48:00+00:00"
+      },
+      {
+        "level": 22,
+        "buy_price": 105000.0,
+        "sell_price": 106000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003207062600321027,
+        "holding": true,
+        "buy_time": "2025-11-11T06:08:00+00:00"
+      },
+      {
+        "level": 21,
+        "buy_price": 106000.0,
+        "sell_price": 107000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00031768072927708293,
+        "holding": true,
+        "buy_time": "2025-11-11T04:28:00+00:00"
+      },
+      {
+        "level": 20,
+        "buy_price": 107000.0,
+        "sell_price": 108000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003147117504987924,
+        "holding": true,
+        "buy_time": "2025-11-03T15:26:00+00:00"
+      },
+      {
+        "level": 19,
+        "buy_price": 108000.0,
+        "sell_price": 109000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00031179775280898875,
+        "holding": true,
+        "buy_time": "2025-11-03T03:26:00+00:00"
+      },
+      {
+        "level": 18,
+        "buy_price": 109000.0,
+        "sell_price": 110000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00030893722296670447,
+        "holding": true,
+        "buy_time": "2025-11-03T02:32:00+00:00"
+      },
+      {
+        "level": 17,
+        "buy_price": 110000.0,
+        "sell_price": 111000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0003061287027579163,
+        "holding": true,
+        "buy_time": "2025-11-02T16:00:00+00:00"
+      },
+      {
+        "level": 16,
+        "buy_price": 111000.0,
+        "sell_price": 112000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00030337078651685394,
+        "holding": true,
+        "buy_time": "2025-10-29T18:35:00+00:00"
+      },
+      {
+        "level": 15,
+        "buy_price": 112000.0,
+        "sell_price": 113000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00030066211878009637,
+        "holding": true,
+        "buy_time": "2025-10-29T15:29:00+00:00"
+      },
+      {
+        "level": 14,
+        "buy_price": 113000.0,
+        "sell_price": 114000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0002980013920652282,
+        "holding": true,
+        "buy_time": "2025-10-28T20:09:00+00:00"
+      },
+      {
+        "level": 13,
+        "buy_price": 114000.0,
+        "sell_price": 115000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00029538734476641044,
+        "holding": true,
+        "buy_time": "2025-10-28T19:20:00+00:00"
+      },
+      {
+        "level": 12,
+        "buy_price": 115000.0,
+        "sell_price": 116000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.000292818759159746,
+        "holding": true,
+        "buy_time": "2025-10-28T14:42:00+00:00"
+      },
+      {
+        "level": 11,
+        "buy_price": 116000.0,
+        "sell_price": 117000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00029029445951181713,
+        "holding": true,
+        "buy_time": "2025-10-10T20:52:00+00:00"
+      },
+      {
+        "level": 10,
+        "buy_price": 117000.0,
+        "sell_price": 118000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00028781331028522047,
+        "holding": true,
+        "buy_time": "2025-10-10T19:10:00+00:00"
+      },
+      {
+        "level": 9,
+        "buy_price": 118000.0,
+        "sell_price": 119000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0002853742144353457,
+        "holding": true,
+        "buy_time": "2025-10-10T17:05:00+00:00"
+      },
+      {
+        "level": 8,
+        "buy_price": 119000.0,
+        "sell_price": 120000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0002829761117930318,
+        "holding": true,
+        "buy_time": "2025-10-10T15:30:00+00:00"
+      },
+      {
+        "level": 7,
+        "buy_price": 120000.0,
+        "sell_price": 121000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00028061797752808993,
+        "holding": true,
+        "buy_time": "2025-10-10T15:04:00+00:00"
+      },
+      {
+        "level": 6,
+        "buy_price": 121000.0,
+        "sell_price": 122000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00027829882068901475,
+        "holding": true,
+        "buy_time": "2025-10-10T14:57:00+00:00"
+      },
+      {
+        "level": 5,
+        "buy_price": 122000.0,
+        "sell_price": 123000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00027601768281451466,
+        "holding": true,
+        "buy_time": "2025-10-09T14:08:00+00:00"
+      },
+      {
+        "level": 4,
+        "buy_price": 123000.0,
+        "sell_price": 124000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00027377363661277063,
+        "holding": true,
+        "buy_time": "2025-10-08T20:58:00+00:00"
+      },
+      {
+        "level": 3,
+        "buy_price": 124000.0,
+        "sell_price": 125000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.0002715657847046031,
+        "holding": true,
+        "buy_time": "2025-10-07T13:42:00+00:00"
+      },
+      {
+        "level": 2,
+        "buy_price": 125000.0,
+        "sell_price": 126000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00026939325842696634,
+        "holding": true,
+        "buy_time": "2025-10-06T21:16:00+00:00"
+      },
+      {
+        "level": 1,
+        "buy_price": 126000.0,
+        "sell_price": 127000.0,
+        "capital_per_level": 33.70786516853933,
+        "base_amount": 0.00026725521669341895,
+        "holding": true,
+        "buy_time": "2025-10-06T18:57:00+00:00"
+      }
+    ]
+  }
+}
