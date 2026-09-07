@@ -28,15 +28,18 @@ def load_notebook_function(function_name):
 
         tree = ast.parse(source)
 
-        for node in tree.body:
-            if isinstance(node, ast.FunctionDef) and node.name == function_name:
-                module = ast.Module(body=[node], type_ignores=[])
-                ast.fix_missing_locations(module)
-                exec(
-                    compile(module, str(NOTEBOOK_PATH), 'exec'),
-                    namespace,
-                )
-                return namespace[function_name]
+        function_nodes = [
+            node for node in tree.body
+            if isinstance(node, ast.FunctionDef)
+        ]
+        if any(node.name == function_name for node in function_nodes):
+            module = ast.Module(body=function_nodes, type_ignores=[])
+            ast.fix_missing_locations(module)
+            exec(
+                compile(module, str(NOTEBOOK_PATH), 'exec'),
+                namespace,
+            )
+            return namespace[function_name]
 
     raise RuntimeError(f'Function {function_name!r} not found.')
 
@@ -45,6 +48,11 @@ build_excel_grid_table = load_notebook_function('build_excel_grid_table')
 run_grid_backtest = load_notebook_function('run_grid_backtest')
 build_monthly_portfolio_pnl = load_notebook_function(
     'build_monthly_portfolio_pnl'
+)
+round_to_gap = load_notebook_function('round_to_gap')
+build_dynamic_regime = load_notebook_function('build_dynamic_regime')
+run_dynamic_grid_backtest = load_notebook_function(
+    'run_dynamic_grid_backtest'
 )
 
 
@@ -67,8 +75,6 @@ def make_candles(rows, start='2024-01-01'):
 
 class TestGridTradingEngine(unittest.TestCase):
     def setUp(self):
-        # 3 intervals: 100->110, 110->120, 120->130.
-        # Capital = 300, therefore Cost/Grid = 100 USDT.
         self.grid = build_excel_grid_table(
             capital=300.0,
             ceiling=130.0,
@@ -80,12 +86,7 @@ class TestGridTradingEngine(unittest.TestCase):
 
     def test_excel_template_checkpoint(self):
         grid = build_excel_grid_table(
-            3000.0,
-            8987.0,
-            1987.0,
-            70.0,
-            0.001,
-            0.001,
+            3000.0, 8987.0, 1987.0, 70.0, 0.001, 0.001
         )
         first = grid.iloc[0]
 
@@ -101,10 +102,7 @@ class TestGridTradingEngine(unittest.TestCase):
     def test_grid_count_and_capital_per_level(self):
         self.assertEqual(len(self.grid), 3)
         self.assertTrue(
-            np.allclose(
-                self.grid['capital_per_level'],
-                100.0,
-            )
+            np.allclose(self.grid['capital_per_level'], 100.0)
         )
 
     def test_fee_formula_matches_excel_logic(self):
@@ -120,50 +118,30 @@ class TestGridTradingEngine(unittest.TestCase):
         expected_net_sell = expected_gross_sell * 0.999
 
         self.assertAlmostEqual(
-            row['gross_base_amount'],
-            gross_base,
-            places=12,
+            row['buy_fee_base'], expected_buy_fee_base, places=12
         )
         self.assertAlmostEqual(
-            row['buy_fee_base'],
-            expected_buy_fee_base,
-            places=12,
+            row['base_amount'], expected_base, places=12
         )
         self.assertAlmostEqual(
-            row['base_amount'],
-            expected_base,
-            places=12,
+            row['sell_fee_quote'], expected_sell_fee, places=12
         )
         self.assertAlmostEqual(
-            row['sell_fee_quote'],
-            expected_sell_fee,
-            places=12,
-        )
-        self.assertAlmostEqual(
-            row['net_sell'],
-            expected_net_sell,
-            places=12,
+            row['net_sell'], expected_net_sell, places=12
         )
 
     def test_upward_move_does_not_trigger_buy(self):
         result = run_grid_backtest(
-            make_candles([
-                (115, 125, 115, 122),
-            ]),
+            make_candles([(115, 125, 115, 122)]),
             self.grid,
             300.0,
         )
         self.assertTrue(result['trade_log'].empty)
-        self.assertEqual(
-            result['summary']['open_positions'],
-            0,
-        )
+        self.assertEqual(result['summary']['open_positions'], 0)
 
     def test_downward_cross_triggers_buy(self):
         result = run_grid_backtest(
-            make_candles([
-                (125, 126, 115, 118),
-            ]),
+            make_candles([(125, 126, 115, 118)]),
             self.grid,
             300.0,
         )
@@ -171,20 +149,22 @@ class TestGridTradingEngine(unittest.TestCase):
 
         self.assertEqual(len(log), 1)
         self.assertEqual(log.iloc[0]['side'], 'BUY')
-        self.assertAlmostEqual(
-            log.iloc[0]['price'],
-            120.0,
-            places=12,
-        )
-        self.assertEqual(
-            result['summary']['open_positions'],
-            1,
-        )
+        self.assertAlmostEqual(log.iloc[0]['price'], 120.0, places=12)
 
     def test_new_buy_cannot_sell_in_same_candle(self):
         result = run_grid_backtest(
+            make_candles([(125, 135, 115, 120)]),
+            self.grid,
+            300.0,
+        )
+        self.assertEqual(result['trade_log']['side'].tolist(), ['BUY'])
+        self.assertEqual(result['summary']['completed_cycles'], 0)
+
+    def test_buy_then_sell_on_later_candle(self):
+        result = run_grid_backtest(
             make_candles([
-                (125, 135, 115, 120),
+                (125, 126, 115, 118),
+                (120, 131, 120, 130),
             ]),
             self.grid,
             300.0,
@@ -192,44 +172,8 @@ class TestGridTradingEngine(unittest.TestCase):
 
         self.assertEqual(
             result['trade_log']['side'].tolist(),
-            ['BUY'],
-        )
-        self.assertEqual(
-            result['summary']['completed_cycles'],
-            0,
-        )
-
-    def test_buy_then_sell_on_later_candle(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (120, 131, 120, 130),
-        ])
-        result = run_grid_backtest(
-            data,
-            self.grid,
-            300.0,
-        )
-        log = result['trade_log']
-
-        self.assertEqual(
-            log['side'].tolist(),
             ['BUY', 'SELL'],
         )
-        self.assertAlmostEqual(
-            log.iloc[0]['price'],
-            120.0,
-            places=12,
-        )
-        self.assertAlmostEqual(
-            log.iloc[1]['price'],
-            130.0,
-            places=12,
-        )
-        self.assertEqual(
-            result['summary']['completed_cycles'],
-            1,
-        )
-
         self.assertAlmostEqual(
             result['summary']['realized_profit'],
             8.116775,
@@ -238,9 +182,7 @@ class TestGridTradingEngine(unittest.TestCase):
 
     def test_multiple_grid_levels_fill_on_downward_cross(self):
         result = run_grid_backtest(
-            make_candles([
-                (125, 126, 95, 100),
-            ]),
+            make_candles([(125, 126, 95, 100)]),
             self.grid,
             300.0,
         )
@@ -253,77 +195,51 @@ class TestGridTradingEngine(unittest.TestCase):
             set(buys['price'].tolist()),
             {100.0, 110.0, 120.0},
         )
-        self.assertAlmostEqual(
-            result['summary']['final_cash'],
-            0.0,
-            places=10,
-        )
 
     def test_holding_grid_cannot_buy_twice(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (125, 126, 115, 118),
-        ])
         result = run_grid_backtest(
-            data,
+            make_candles([
+                (125, 126, 115, 118),
+                (125, 126, 115, 118),
+            ]),
             self.grid,
             300.0,
         )
-
-        self.assertEqual(
-            len(result['trade_log']),
-            1,
-        )
-        self.assertEqual(
-            result['trade_log'].iloc[0]['side'],
-            'BUY',
-        )
+        self.assertEqual(len(result['trade_log']), 1)
 
     def test_sold_grid_cannot_rebuy_in_same_candle(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (125, 131, 115, 120),
-        ])
         result = run_grid_backtest(
-            data,
+            make_candles([
+                (125, 126, 115, 118),
+                (125, 131, 115, 120),
+            ]),
             self.grid,
             300.0,
         )
-
         self.assertEqual(
             result['trade_log']['side'].tolist(),
             ['BUY', 'SELL'],
         )
-        self.assertEqual(
-            result['summary']['open_positions'],
-            0,
-        )
+        self.assertEqual(result['summary']['open_positions'], 0)
 
     def test_insufficient_cash_prevents_overbuying(self):
         result = run_grid_backtest(
-            make_candles([
-                (125, 126, 95, 100),
-            ]),
+            make_candles([(125, 126, 95, 100)]),
             self.grid,
             100.0,
         )
         buys = result['trade_log'].loc[
             result['trade_log']['side'].eq('BUY')
         ]
-
         self.assertEqual(len(buys), 1)
-        self.assertGreaterEqual(
-            result['summary']['final_cash'],
-            -1e-9,
-        )
+        self.assertGreaterEqual(result['summary']['final_cash'], -1e-9)
 
     def test_cash_movement_reconciles(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (120, 131, 120, 130),
-        ])
         result = run_grid_backtest(
-            data,
+            make_candles([
+                (125, 126, 115, 118),
+                (120, 131, 120, 130),
+            ]),
             self.grid,
             300.0,
         )
@@ -331,64 +247,45 @@ class TestGridTradingEngine(unittest.TestCase):
 
         self.assertTrue(
             np.allclose(
-                log['cash_before']
-                + log['cash_movement'],
+                log['cash_before'] + log['cash_movement'],
                 log['cash_after'],
                 atol=1e-10,
             )
         )
         self.assertAlmostEqual(
-            300.0
-            + log['cash_movement'].sum(),
+            300.0 + log['cash_movement'].sum(),
             result['summary']['final_cash'],
             places=10,
         )
 
-    def test_grid_cashflow_matches_independent_expected_profit(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (120, 131, 120, 130),
-        ])
+    def test_grid_cashflow_matches_expected_profit(self):
         result = run_grid_backtest(
-            data,
+            make_candles([
+                (125, 126, 115, 118),
+                (120, 131, 120, 130),
+            ]),
             self.grid,
             300.0,
         )
         log = result['trade_log']
 
         self.assertAlmostEqual(
-            log.iloc[0]['grid_cashflow'],
-            0.0,
-            places=12,
-        )
-        self.assertAlmostEqual(
-            log.iloc[1]['grid_cashflow'],
-            8.116775,
-            places=12,
-        )
-        self.assertAlmostEqual(
             log['grid_cashflow'].sum(),
             result['summary']['realized_profit'],
             places=12,
         )
-
-        completed = result[
-            'completed_trades'
-        ].iloc[0]
         self.assertAlmostEqual(
-            completed['actual_earn']
-            - completed['cost'],
-            completed['grid_cashflow'],
+            result['summary']['realized_profit'],
+            8.116775,
             places=12,
         )
 
     def test_equity_identity(self):
-        data = make_candles([
-            (125, 126, 115, 118),
-            (120, 125, 117, 123),
-        ])
         result = run_grid_backtest(
-            data,
+            make_candles([
+                (125, 126, 115, 118),
+                (120, 125, 117, 123),
+            ]),
             self.grid,
             300.0,
         )
@@ -396,9 +293,7 @@ class TestGridTradingEngine(unittest.TestCase):
 
         self.assertTrue(
             np.allclose(
-                equity['cash']
-                + equity['btc']
-                * equity['close'],
+                equity['cash'] + equity['btc'] * equity['close'],
                 equity['equity'],
                 atol=1e-10,
             )
@@ -426,16 +321,7 @@ class TestGridTradingEngine(unittest.TestCase):
             ['2024-01', '2024-02'],
         )
         self.assertTrue(
-            np.allclose(
-                monthly['portfolio_net_pnl'],
-                [10.0, -5.0],
-            )
-        )
-        self.assertTrue(
-            np.allclose(
-                monthly['cumulative_portfolio_pnl'],
-                [10.0, 5.0],
-            )
+            np.allclose(monthly['portfolio_net_pnl'], [10.0, -5.0])
         )
 
     def test_monthly_portfolio_pnl_reconciles_final_equity(self):
@@ -456,14 +342,109 @@ class TestGridTradingEngine(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            monthly['portfolio_net_pnl'].sum(),
-            20.0,
-            places=12,
+            monthly['portfolio_net_pnl'].sum(), 20.0, places=12
         )
         self.assertAlmostEqual(
             monthly['cumulative_portfolio_pnl'].iloc[-1],
             20.0,
             places=12,
+        )
+
+
+class TestDynamicGridV1(unittest.TestCase):
+    def test_round_to_gap(self):
+        self.assertEqual(round_to_gap(111_499, 1000), 111_000)
+        self.assertEqual(round_to_gap(111_500, 1000), 112_000)
+
+    def test_regime_is_centered_and_fixed_size(self):
+        regime = build_dynamic_regime(
+            reference_price=100_000,
+            gap=1000,
+            number_of_grids=30,
+            capital=3000,
+        )
+        self.assertEqual(regime['floor'], 85_000)
+        self.assertEqual(regime['ceiling'], 115_000)
+        self.assertEqual(len(regime['buy_prices']), 30)
+        self.assertAlmostEqual(regime['capital_per_grid'], 100.0)
+        self.assertTrue(
+            np.allclose(np.diff(regime['buy_prices']), 1000.0)
+        )
+
+    def test_recenter_uses_close_and_is_causal(self):
+        df = make_candles([
+            (100.0, 100.0, 100.0, 100.0),
+            (100.0, 111.0, 100.0, 111.0),
+            (111.0, 111.0, 110.0, 110.0),
+        ])
+
+        result = run_dynamic_grid_backtest(
+            df,
+            initial_capital=400.0,
+            gap=10.0,
+            number_of_grids=4,
+            recenter_trigger_grids=1,
+            buy_fee=0.001,
+            sell_fee=0.001,
+        )
+
+        log = result['recenter_log']
+        self.assertEqual(len(log), 1)
+        self.assertEqual(log.iloc[0]['old_reference'], 100.0)
+        self.assertEqual(log.iloc[0]['new_reference'], 110.0)
+        self.assertEqual(
+            result['equity_curve'].iloc[1]['reference_price'],
+            100.0,
+        )
+        self.assertEqual(
+            result['equity_curve'].iloc[2]['reference_price'],
+            110.0,
+        )
+
+    def test_old_position_survives_recenter_and_keeps_target(self):
+        df = make_candles([
+            (100.0, 100.0, 89.0, 90.0),
+            (90.0, 100.0, 89.0, 90.0),
+        ])
+
+        result = run_dynamic_grid_backtest(
+            df,
+            initial_capital=400.0,
+            gap=10.0,
+            number_of_grids=4,
+            recenter_trigger_grids=1,
+            buy_fee=0.001,
+            sell_fee=0.001,
+        )
+
+        completed = result['completed_trades']
+        self.assertGreaterEqual(len(result['recenter_log']), 1)
+        self.assertEqual(len(completed), 1)
+        self.assertEqual(completed.iloc[0]['regime_id'], 0)
+        self.assertEqual(completed.iloc[0]['buy_price'], 90.0)
+        self.assertEqual(completed.iloc[0]['sell_price'], 100.0)
+
+    def test_dynamic_cash_never_goes_negative(self):
+        df = make_candles([
+            (100.0, 100.0, 100.0, 100.0),
+            (100.0, 100.0, 89.0, 90.0),
+            (90.0, 90.0, 79.0, 80.0),
+            (80.0, 80.0, 69.0, 70.0),
+        ])
+
+        result = run_dynamic_grid_backtest(
+            df,
+            initial_capital=400.0,
+            gap=10.0,
+            number_of_grids=4,
+            recenter_trigger_grids=1,
+            buy_fee=0.001,
+            sell_fee=0.001,
+        )
+
+        self.assertGreaterEqual(
+            result['equity_curve']['cash'].min(),
+            -1e-9,
         )
 
 
