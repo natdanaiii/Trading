@@ -1,10 +1,10 @@
 {
   "log_schema_version": 1,
   "run_info": {
-    "generated_at_utc": "2026-09-07T09:55:49.105139+00:00",
+    "generated_at_utc": "2026-09-07T10:33:41.857865+00:00",
     "repository": "natdanaiii/Trading",
     "branch": "main",
-    "source_main_commit_sha": "91aac332ea565cf4e9d149d5dc91cf5c26091c53",
+    "source_main_commit_sha": "8a5e11f34e2a96dc1dc6e55fabaab35d1201e87c",
     "source_notebook_blob_sha": "81cd191cedfe0a3785bb488a75d713274f8e0309",
     "symbol": "BTCUSDT",
     "start_date": "2024-01-01",
