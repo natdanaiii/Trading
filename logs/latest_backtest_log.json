@@ -1,7 +1,7 @@
 {
-  "log_schema_version": 2,
+  "log_schema_version": 3,
   "run_info": {
-    "generated_at_utc": "2026-09-07T10:50:59.740052+00:00",
+    "generated_at_utc": "2026-09-08T08:32:04.258092+00:00",
     "repository": "natdanaiii/Trading",
     "branch": "main",
     "notebook": "Grid_trading.ipynb",
@@ -36,7 +36,14 @@
     "recenter_trigger_grids": 5,
     "recenter_trigger_usdt": 5000.0,
     "compounding": false,
-    "causal_recenter": true
+    "causal_recenter": true,
+    "min_cash_reserve": 750.0,
+    "max_open_positions": 18,
+    "max_deployed_capital": 1800.0,
+    "max_entry_btc_exposure": 1800.0,
+    "max_drawdown_stop": 0.15,
+    "live_execution_enabled": false,
+    "execution_mode": "BACKTEST / SHADOW READINESS"
   },
   "verification": {
     "v0_status": "PASS",
@@ -91,6 +98,24 @@
         "Expected": "90 -> 100",
         "Actual": "90 -> 100",
         "Result": "PASS"
+      },
+      {
+        "Scenario": "Cash reserve blocks additional BUYs",
+        "Expected": "Min cash >= 300",
+        "Actual": "300.00",
+        "Result": "PASS"
+      },
+      {
+        "Scenario": "Max open positions enforced",
+        "Expected": "<= 1",
+        "Actual": "1",
+        "Result": "PASS"
+      },
+      {
+        "Scenario": "Drawdown circuit breaker latches",
+        "Expected": "True",
+        "Actual": "True",
+        "Result": "PASS"
       }
     ]
   },
@@ -126,38 +151,66 @@
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Cash reconciliation",
         "Expected": "<= 1e-8",
-        "Actual": 2.148681232938543e-11,
+        "Actual": 1.5916157281026244e-11,
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Grid Cashflow = realized profit",
         "Expected": "<= 1e-8",
-        "Actual": 0.0,
+        "Actual": 4.547473508864641e-13,
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Cash + BTC x Close = Equity",
         "Expected": "<= 1e-8",
         "Actual": 0.0,
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Cash never negative",
         "Expected": ">= 0",
-        "Actual": 88.88775903142289,
+        "Actual": 1600.073544347807,
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Recenter threshold respected",
         "Expected": "True",
         "Actual": true,
+        "Status": "PASS"
+      },
+      {
+        "Strategy": "V1 Dynamic + Risk",
+        "Test": "Minimum cash reserve respected",
+        "Expected": ">= 750.00",
+        "Actual": 1600.073544347807,
+        "Status": "PASS"
+      },
+      {
+        "Strategy": "V1 Dynamic + Risk",
+        "Test": "Maximum open positions respected",
+        "Expected": "<= 18",
+        "Actual": 18,
+        "Status": "PASS"
+      },
+      {
+        "Strategy": "V1 Dynamic + Risk",
+        "Test": "Maximum deployed capital respected",
+        "Expected": "<= 1800.00",
+        "Actual": 1800.0,
+        "Status": "PASS"
+      },
+      {
+        "Strategy": "V1 Dynamic + Risk",
+        "Test": "No BUY after drawdown risk halt",
+        "Expected": "0",
+        "Actual": 0,
         "Status": "PASS"
       },
       {
@@ -168,7 +221,7 @@
         "Status": "PASS"
       },
       {
-        "Strategy": "V1 Dynamic Grid",
+        "Strategy": "V1 Dynamic + Risk",
         "Test": "Monthly Portfolio Net P&L = total portfolio gain",
         "Expected": "<= 1e-8",
         "Actual": 0.0,
@@ -196,101 +249,121 @@
   },
   "v1_summary": {
     "initial_capital": 3000.0,
-    "final_equity": 3903.908997029419,
-    "net_return": 0.3013029990098064,
-    "annualized_return": 0.14064408448177987,
-    "max_drawdown": -0.19412800528122498,
-    "calmar_ratio": 0.7244914729229035,
-    "completed_cycles": 1562,
-    "open_positions": 39,
-    "final_cash": 676.4203975397107,
-    "final_btc": 0.036823207584702894,
-    "realized_profit": 1576.4203975397322,
-    "unrealized_pnl": -672.5114005103133,
-    "buy_fee_btc": 0.001929307267143881,
-    "buy_fee_usdt_equiv": 160.0999999999952,
-    "sell_fee_usdt": 157.93435475229234,
-    "total_fee_usdt_equiv": 318.0343547522875,
-    "recenter_count": 131
+    "final_equity": 3735.0963614551288,
+    "net_return": 0.24503212048504297,
+    "annualized_return": 0.11572656002642442,
+    "max_drawdown": -0.12325516021891658,
+    "calmar_ratio": 0.938918580129867,
+    "completed_cycles": 1170,
+    "open_positions": 18,
+    "final_cash": 2391.1186413091978,
+    "final_btc": 0.01533377084150632,
+    "final_deployed_capital": 1800.0,
+    "realized_profit": 1191.1186413092141,
+    "unrealized_pnl": -456.02227985408535,
+    "buy_fee_btc": 0.00144320504526537,
+    "buy_fee_usdt_equiv": 118.79999999999752,
+    "sell_fee_usdt": 118.30942806937979,
+    "total_fee_usdt_equiv": 237.10942806937732,
+    "recenter_count": 131,
+    "risk_halt_triggered": false,
+    "risk_halt_count": 0,
+    "min_cash_observed": 1600.073544347807,
+    "max_open_positions_observed": 18,
+    "max_deployed_capital_observed": 1800.0,
+    "max_btc_market_value_observed": 1686.248492594405,
+    "blocked_buy_counts": {
+      "risk_halt": 0,
+      "cash_reserve": 0,
+      "max_open_positions": 6657,
+      "max_deployed_capital": 0,
+      "max_entry_btc_exposure": 0
+    }
   },
   "comparison": [
     {
       "Metric": "Final Equity (USDT)",
       "V0 Fixed Grid": 3306.0649618653997,
-      "V1 Dynamic Grid": 3903.908997029419,
-      "Difference (V1-V0)": 597.8440351640193
+      "V1 Dynamic + Risk": 3735.0963614551288,
+      "Difference (V1-V0)": 429.03139958972906
     },
     {
       "Metric": "Net Return (%)",
       "V0 Fixed Grid": 10.20216539551333,
-      "V1 Dynamic Grid": 30.13029990098064,
-      "Difference (V1-V0)": 19.92813450546731
+      "V1 Dynamic + Risk": 24.503212048504295,
+      "Difference (V1-V0)": 14.301046652990966
     },
     {
       "Metric": "Annualized Return (%)",
       "V0 Fixed Grid": 4.973736303169406,
-      "V1 Dynamic Grid": 14.064408448177987,
-      "Difference (V1-V0)": 9.090672145008583
+      "V1 Dynamic + Risk": 11.572656002642443,
+      "Difference (V1-V0)": 6.598919699473037
     },
     {
       "Metric": "Max Drawdown (%)",
       "V0 Fixed Grid": -8.281687595401232,
-      "V1 Dynamic Grid": -19.4128005281225,
-      "Difference (V1-V0)": -11.131112932721267
+      "V1 Dynamic + Risk": -12.325516021891659,
+      "Difference (V1-V0)": -4.0438284264904265
     },
     {
       "Metric": "Calmar Ratio",
       "V0 Fixed Grid": 0.6005703844626171,
-      "V1 Dynamic Grid": 0.7244914729229035,
-      "Difference (V1-V0)": 0.12392108846028638
+      "V1 Dynamic + Risk": 0.938918580129867,
+      "Difference (V1-V0)": 0.33834819566724983
     },
     {
       "Metric": "Completed Cycles",
       "V0 Fixed Grid": 1566.0,
-      "V1 Dynamic Grid": 1562.0,
-      "Difference (V1-V0)": -4.0
+      "V1 Dynamic + Risk": 1170.0,
+      "Difference (V1-V0)": -396.0
     },
     {
       "Metric": "Open Positions",
       "V0 Fixed Grid": 39.0,
-      "V1 Dynamic Grid": 39.0,
-      "Difference (V1-V0)": 0.0
+      "V1 Dynamic + Risk": 18.0,
+      "Difference (V1-V0)": -21.0
     },
     {
       "Metric": "Realized Profit (USDT)",
       "V0 Fixed Grid": 532.7541979922917,
-      "V1 Dynamic Grid": 1576.4203975397322,
-      "Difference (V1-V0)": 1043.6661995474406
+      "V1 Dynamic + Risk": 1191.1186413092141,
+      "Difference (V1-V0)": 658.3644433169225
     },
     {
       "Metric": "Unrealized P&L (USDT)",
       "V0 Fixed Grid": -226.68923612689196,
-      "V1 Dynamic Grid": -672.5114005103133,
-      "Difference (V1-V0)": -445.8221643834213
+      "V1 Dynamic + Risk": -456.02227985408535,
+      "Difference (V1-V0)": -229.3330437271934
     },
     {
       "Metric": "Total Fees (USDT)",
       "V0 Fixed Grid": 107.47376729112548,
-      "V1 Dynamic Grid": 318.0343547522875,
-      "Difference (V1-V0)": 210.56058746116204
+      "V1 Dynamic + Risk": 237.10942806937732,
+      "Difference (V1-V0)": 129.63566077825183
     },
     {
       "Metric": "Final Cash (USDT)",
       "V0 Fixed Grid": 2218.1474564194305,
-      "V1 Dynamic Grid": 676.4203975397107,
-      "Difference (V1-V0)": -1541.7270588797196
+      "V1 Dynamic + Risk": 2391.1186413091978,
+      "Difference (V1-V0)": 172.9711848897673
     },
     {
       "Metric": "Final BTC",
       "V0 Fixed Grid": 0.012412317163383004,
-      "V1 Dynamic Grid": 0.036823207584702894,
-      "Difference (V1-V0)": 0.02441089042131989
+      "V1 Dynamic + Risk": 0.01533377084150632,
+      "Difference (V1-V0)": 0.0029214536781233154
     },
     {
       "Metric": "Recenter Count",
       "V0 Fixed Grid": 0.0,
-      "V1 Dynamic Grid": 131.0,
+      "V1 Dynamic + Risk": 131.0,
       "Difference (V1-V0)": 131.0
+    },
+    {
+      "Metric": "Risk Halt Triggered",
+      "V0 Fixed Grid": 0.0,
+      "V1 Dynamic + Risk": 0.0,
+      "Difference (V1-V0)": 0.0
     }
   ],
   "monthly_comparison": [
@@ -352,163 +425,163 @@
       "month": "2024-07",
       "v0_ending_equity": 3137.2583845157633,
       "v0_net_pnl": 32.067185177717874,
-      "v1_ending_equity": 3407.1998740633244,
-      "v1_net_pnl": 95.13264936055793,
-      "equity_difference": 269.9414895475611,
-      "net_pnl_difference": 63.06546418284006
+      "v1_ending_equity": 3400.7076822451427,
+      "v1_net_pnl": 88.64045754237623,
+      "equity_difference": 263.4492977293794,
+      "net_pnl_difference": 56.57327236465835
     },
     {
       "month": "2024-08",
       "v0_ending_equity": 3137.053199649156,
       "v0_net_pnl": -0.20518486660739654,
-      "v1_ending_equity": 3406.591158959038,
-      "v1_net_pnl": -0.6087151042866026,
-      "equity_difference": 269.5379593098819,
-      "net_pnl_difference": -0.40353023767920604
+      "v1_ending_equity": 3364.3465900668507,
+      "v1_net_pnl": -36.36109217829198,
+      "equity_difference": 227.2933904176948,
+      "net_pnl_difference": -36.15590731168459
     },
     {
       "month": "2024-09",
       "v0_ending_equity": 3178.916569777641,
       "v0_net_pnl": 41.86337012848526,
-      "v1_ending_equity": 3530.7858236735347,
-      "v1_net_pnl": 124.19466471449687,
-      "equity_difference": 351.8692538958935,
-      "net_pnl_difference": 82.33129458601161
+      "v1_ending_equity": 3483.595236753904,
+      "v1_net_pnl": 119.24864668705322,
+      "equity_difference": 304.6786669762628,
+      "net_pnl_difference": 77.38527655856797
     },
     {
       "month": "2024-10",
       "v0_ending_equity": 3215.2425742870796,
       "v0_net_pnl": 36.32600450943846,
-      "v1_ending_equity": 3638.5529703848615,
+      "v1_ending_equity": 3591.362383465231,
       "v1_net_pnl": 107.76714671132686,
-      "equity_difference": 423.3103960977819,
+      "equity_difference": 376.1198091781512,
       "net_pnl_difference": 71.4411422018884
     },
     {
       "month": "2024-11",
       "v0_ending_equity": 3247.5840081316082,
       "v0_net_pnl": 32.34143384452864,
-      "v1_ending_equity": 3734.4992241235927,
+      "v1_ending_equity": 3687.308637203962,
       "v1_net_pnl": 95.94625373873123,
-      "equity_difference": 486.9152159919845,
+      "equity_difference": 439.72462907235376,
       "net_pnl_difference": 63.60481989420259
     },
     {
       "month": "2024-12",
       "v0_ending_equity": 3245.1755192745177,
       "v0_net_pnl": -2.4084888570905605,
-      "v1_ending_equity": 3727.3540405141757,
+      "v1_ending_equity": 3680.163453594545,
       "v1_net_pnl": -7.145183609417018,
-      "equity_difference": 482.17852123965804,
+      "equity_difference": 434.9879343200273,
       "net_pnl_difference": -4.736694752326457
     },
     {
       "month": "2025-01",
       "v0_ending_equity": 3308.7165247989915,
       "v0_net_pnl": 63.5410055244738,
-      "v1_ending_equity": 3915.85902357006,
-      "v1_net_pnl": 188.50498305588417,
-      "equity_difference": 607.1424987710684,
-      "net_pnl_difference": 124.96397753141036
+      "v1_ending_equity": 3867.7594466504293,
+      "v1_net_pnl": 187.59599305588426,
+      "equity_difference": 559.0429218514378,
+      "net_pnl_difference": 124.05498753141046
     },
     {
       "month": "2025-02",
       "v0_ending_equity": 3232.3614896087797,
       "v0_net_pnl": -76.35503519021177,
-      "v1_ending_equity": 3689.3390858390676,
-      "v1_net_pnl": -226.5199377309923,
-      "equity_difference": 456.9775962302879,
-      "net_pnl_difference": -150.16490254078053
+      "v1_ending_equity": 3644.805560788015,
+      "v1_net_pnl": -222.95388586241415,
+      "equity_difference": 412.4440711792354,
+      "net_pnl_difference": -146.5988506722024
     },
     {
       "month": "2025-03",
       "v0_ending_equity": 3248.4891967780013,
       "v0_net_pnl": 16.127707169221594,
-      "v1_ending_equity": 3737.1846171077136,
-      "v1_net_pnl": 47.84553126864603,
-      "equity_difference": 488.6954203297123,
-      "net_pnl_difference": 31.717824099424433
+      "v1_ending_equity": 3616.892017488684,
+      "v1_net_pnl": -27.913543299331195,
+      "equity_difference": 368.4028207106826,
+      "net_pnl_difference": -44.04125046855279
     },
     {
       "month": "2025-04",
       "v0_ending_equity": 3358.7208078975937,
       "v0_net_pnl": 110.23161111959234,
-      "v1_ending_equity": 4064.20506342914,
-      "v1_net_pnl": 327.02044632142633,
-      "equity_difference": 705.4842555315463,
-      "net_pnl_difference": 216.788835201834
+      "v1_ending_equity": 3834.1812574426567,
+      "v1_net_pnl": 217.2892399539728,
+      "equity_difference": 475.46044954506306,
+      "net_pnl_difference": 107.05762883438047
     },
     {
       "month": "2025-05",
       "v0_ending_equity": 3404.69869228434,
       "v0_net_pnl": 45.977884386746155,
-      "v1_ending_equity": 4200.606120443125,
-      "v1_net_pnl": 136.40105701398534,
-      "equity_difference": 795.9074281587855,
-      "net_pnl_difference": 90.42317262723918
+      "v1_ending_equity": 3970.582314456646,
+      "v1_net_pnl": 136.40105701398943,
+      "equity_difference": 565.8836221723063,
+      "net_pnl_difference": 90.42317262724328
     },
     {
       "month": "2025-06",
       "v0_ending_equity": 3421.152960218843,
       "v0_net_pnl": 16.45426793450315,
-      "v1_ending_equity": 4249.4204486488015,
-      "v1_net_pnl": 48.81432820567625,
-      "equity_difference": 828.2674884299586,
-      "net_pnl_difference": 32.3600602711731
+      "v1_ending_equity": 4019.3966426623215,
+      "v1_net_pnl": 48.81432820567534,
+      "equity_difference": 598.2436824434785,
+      "net_pnl_difference": 32.36006027117219
     },
     {
       "month": "2025-07",
       "v0_ending_equity": 3425.8735999780024,
       "v0_net_pnl": 4.72063975915944,
-      "v1_ending_equity": 4263.425013267641,
-      "v1_net_pnl": 14.00456461883914,
-      "equity_difference": 837.5514132896383,
-      "net_pnl_difference": 9.2839248596797
+      "v1_ending_equity": 4033.401207281161,
+      "v1_net_pnl": 14.004564618839595,
+      "equity_difference": 607.5276073031587,
+      "net_pnl_difference": 9.283924859680155
     },
     {
       "month": "2025-08",
       "v0_ending_equity": 3407.829334386417,
       "v0_net_pnl": -18.044265591585372,
-      "v1_ending_equity": 4209.893692012597,
+      "v1_ending_equity": 3979.8698860261175,
       "v1_net_pnl": -53.53132125504362,
-      "equity_difference": 802.06435762618,
+      "equity_difference": 572.0405516397004,
       "net_pnl_difference": -35.48705566345825
     },
     {
       "month": "2025-09",
       "v0_ending_equity": 3438.137693646578,
       "v0_net_pnl": 30.30835926016107,
-      "v1_ending_equity": 4299.808491151075,
+      "v1_ending_equity": 4069.7846851645954,
       "v1_net_pnl": 89.91479913847797,
-      "equity_difference": 861.6707975044969,
+      "equity_difference": 631.6469915180173,
       "net_pnl_difference": 59.606439878316905
     },
     {
       "month": "2025-10",
       "v0_ending_equity": 3445.92589887854,
       "v0_net_pnl": 7.788205231961911,
-      "v1_ending_equity": 4322.9135000058595,
-      "v1_net_pnl": 23.1050088547845,
-      "equity_difference": 876.9876011273195,
-      "net_pnl_difference": 15.31680362282259
+      "v1_ending_equity": 4070.658125874257,
+      "v1_net_pnl": 0.873440709661736,
+      "equity_difference": 624.7322269957172,
+      "net_pnl_difference": -6.914764522300175
     },
     {
       "month": "2025-11",
       "v0_ending_equity": 3316.8122478411096,
       "v0_net_pnl": -129.11365103743037,
-      "v1_ending_equity": 3935.792612090717,
-      "v1_net_pnl": -387.1208879151427,
-      "equity_difference": 618.9803642496072,
-      "net_pnl_difference": -258.00723687771233
+      "v1_ending_equity": 3776.6781745477087,
+      "v1_net_pnl": -293.9799513265484,
+      "equity_difference": 459.8659267065991,
+      "net_pnl_difference": -164.86630028911804
     },
     {
       "month": "2025-12",
       "v0_ending_equity": 3306.0649618653997,
       "v0_net_pnl": -10.747285975709929,
-      "v1_ending_equity": 3903.908997029419,
-      "v1_net_pnl": -31.88361506129786,
-      "equity_difference": 597.8440351640193,
-      "net_pnl_difference": -21.13632908558793
+      "v1_ending_equity": 3735.0963614551288,
+      "v1_net_pnl": -41.58181309257998,
+      "equity_difference": 429.03139958972906,
+      "net_pnl_difference": -30.83452711687005
     }
   ],
   "v0_monthly_grid_cashflow": [
@@ -923,5 +996,19 @@
         "new_ceiling": 103000.0
       }
     ]
+  },
+  "risk_diagnostics": {
+    "risk_halt_log": [],
+    "min_cash_observed": 1600.073544347807,
+    "max_open_positions_observed": 18,
+    "max_deployed_capital_observed": 1800.0,
+    "max_btc_market_value_observed": 1686.248492594405,
+    "blocked_buy_counts": {
+      "risk_halt": 0,
+      "cash_reserve": 0,
+      "max_open_positions": 6657,
+      "max_deployed_capital": 0,
+      "max_entry_btc_exposure": 0
+    }
   }
 }
