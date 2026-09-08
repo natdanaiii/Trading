@@ -1,233 +1,11 @@
 {
-  "log_schema_version": 3,
+  "log_schema_version": 4,
   "run_info": {
-    "generated_at_utc": "2026-09-08T09:23:04.268298+00:00",
-    "repository": "natdanaiii/Trading",
-    "branch": "main",
-    "notebook": "Grid_trading.ipynb",
+    "generated_at_utc": "2026-09-08T09:50:35.567117+00:00",
     "symbol": "BTCUSDT",
     "start_date": "2024-01-01",
     "end_date": "2026-01-01",
-    "timeframe": "1m",
-    "data_rows": 1052640,
-    "data_first_time": "2024-01-01T00:00:00+00:00",
-    "data_last_time": "2025-12-31T23:59:00+00:00"
-  },
-  "common_parameters": {
-    "initial_capital": 3000.0,
-    "buy_fee": 0.001,
-    "sell_fee": 0.001
-  },
-  "v0_parameters": {
-    "floor": 38000.0,
-    "ceiling": 127000.0,
-    "gap": 1000.0,
-    "number_of_grids": 89,
-    "capital_per_grid": 33.70786516853933,
-    "price_rounding": 1000.0,
-    "historical_low": 38555.0,
-    "historical_high": 126199.63,
-    "look_ahead_boundary_selection": true
-  },
-  "v1_parameters": {
-    "gap": 1000.0,
-    "number_of_grids": 30,
-    "capital_per_grid": 100.0,
-    "recenter_trigger_grids": 5,
-    "recenter_trigger_usdt": 5000.0,
-    "compounding": false,
-    "causal_recenter": true,
-    "min_cash_reserve": 750.0,
-    "max_open_positions": 18,
-    "max_deployed_capital": 1800.0,
-    "max_entry_btc_exposure": 1800.0,
-    "max_drawdown_stop": 0.15,
-    "live_execution_enabled": false,
-    "execution_mode": "BACKTEST / SHADOW READINESS"
-  },
-  "verification": {
-    "v0_status": "PASS",
-    "v0_scenarios": [
-      {
-        "Scenario": "Excel first-grid profit",
-        "Expected": "0.175064439834",
-        "Actual": "0.175064439834",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Upward-only candle",
-        "Expected": "BUY count = 0",
-        "Actual": "BUY count = 0",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Downward 125 -> 115 crossing",
-        "Expected": "BUY 120 only",
-        "Actual": "BUY 120",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Same-candle BUY -> SELL protection",
-        "Expected": "SELL count = 0",
-        "Actual": "SELL count = 0",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Later-candle completed cycle",
-        "Expected": "BUY 120 -> SELL 130",
-        "Actual": "BUY 120 -> SELL 130",
-        "Result": "PASS"
-      }
-    ],
-    "v1_status": "PASS",
-    "v1_scenarios": [
-      {
-        "Scenario": "Recenter occurred",
-        "Expected": ">= 1",
-        "Actual": "1",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Old regime position preserved",
-        "Expected": "regime_id = 0",
-        "Actual": "regime_id = 0",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Original SELL target preserved",
-        "Expected": "90 -> 100",
-        "Actual": "90 -> 100",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Cash reserve blocks additional BUYs",
-        "Expected": "Min cash >= 300",
-        "Actual": "300.00",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Max open positions enforced",
-        "Expected": "<= 1",
-        "Actual": "1",
-        "Result": "PASS"
-      },
-      {
-        "Scenario": "Drawdown circuit breaker latches",
-        "Expected": "True",
-        "Actual": "True",
-        "Result": "PASS"
-      }
-    ]
-  },
-  "system_audit": {
-    "status": "PASS",
-    "checks": [
-      {
-        "Strategy": "V0 Fixed Grid",
-        "Test": "Cash reconciliation",
-        "Expected": "<= 1e-8",
-        "Actual": 1.7644197214394808e-10,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V0 Fixed Grid",
-        "Test": "Grid Cashflow = realized profit",
-        "Expected": "<= 1e-8",
-        "Actual": 1.5916157281026244e-12,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V0 Fixed Grid",
-        "Test": "Cash + BTC x Close = Equity",
-        "Expected": "<= 1e-8",
-        "Actual": 0.0,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V0 Fixed Grid",
-        "Test": "Cash never negative",
-        "Expected": ">= 0",
-        "Actual": 1952.3341411199283,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Cash reconciliation",
-        "Expected": "<= 1e-8",
-        "Actual": 1.5916157281026244e-11,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Grid Cashflow = realized profit",
-        "Expected": "<= 1e-8",
-        "Actual": 4.547473508864641e-13,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Cash + BTC x Close = Equity",
-        "Expected": "<= 1e-8",
-        "Actual": 0.0,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Cash never negative",
-        "Expected": ">= 0",
-        "Actual": 1600.073544347807,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Recenter threshold respected",
-        "Expected": "True",
-        "Actual": true,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Minimum cash reserve respected",
-        "Expected": ">= 750.00",
-        "Actual": 1600.073544347807,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Maximum open positions respected",
-        "Expected": "<= 18",
-        "Actual": 18,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Maximum deployed capital respected",
-        "Expected": "<= 1800.00",
-        "Actual": 1800.0,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "No BUY after drawdown risk halt",
-        "Expected": "0",
-        "Actual": 0,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V0 Fixed Grid",
-        "Test": "Monthly Portfolio Net P&L = total portfolio gain",
-        "Expected": "<= 1e-8",
-        "Actual": 0.0,
-        "Status": "PASS"
-      },
-      {
-        "Strategy": "V1 Dynamic + Risk",
-        "Test": "Monthly Portfolio Net P&L = total portfolio gain",
-        "Expected": "<= 1e-8",
-        "Actual": 0.0,
-        "Status": "PASS"
-      }
-    ]
+    "data_rows": 1052640
   },
   "v0_summary": {
     "initial_capital": 3000.0,
@@ -249,18 +27,18 @@
   },
   "v1_summary": {
     "initial_capital": 3000.0,
-    "final_equity": 3735.0963614551288,
-    "net_return": 0.24503212048504297,
-    "annualized_return": 0.11572656002642442,
+    "final_equity": 3735.096361455128,
+    "net_return": 0.24503212048504253,
+    "annualized_return": 0.11572656002642422,
     "max_drawdown": -0.12325516021891658,
-    "calmar_ratio": 0.938918580129867,
+    "calmar_ratio": 0.9389185801298653,
     "completed_cycles": 1170,
     "open_positions": 18,
     "final_cash": 2391.1186413091978,
-    "final_btc": 0.01533377084150632,
+    "final_btc": 0.015333770841506309,
     "final_deployed_capital": 1800.0,
     "realized_profit": 1191.1186413092141,
-    "unrealized_pnl": -456.02227985408535,
+    "unrealized_pnl": -456.02227985408626,
     "buy_fee_btc": 0.00144320504526537,
     "buy_fee_usdt_equiv": 118.79999999999752,
     "sell_fee_usdt": 118.30942806937979,
@@ -271,7 +49,7 @@
     "min_cash_observed": 1600.073544347807,
     "max_open_positions_observed": 18,
     "max_deployed_capital_observed": 1800.0,
-    "max_btc_market_value_observed": 1686.248492594405,
+    "max_btc_market_value_observed": 1686.2484925944038,
     "blocked_buy_counts": {
       "risk_halt": 0,
       "cash_reserve": 0,
@@ -280,735 +58,101 @@
       "max_entry_btc_exposure": 0
     }
   },
-  "comparison": [
-    {
-      "Metric": "Final Equity (USDT)",
-      "V0 Fixed Grid": 3306.0649618653997,
-      "V1 Dynamic + Risk": 3735.0963614551288,
-      "Difference (V1-V0)": 429.03139958972906
-    },
-    {
-      "Metric": "Net Return (%)",
-      "V0 Fixed Grid": 10.20216539551333,
-      "V1 Dynamic + Risk": 24.503212048504295,
-      "Difference (V1-V0)": 14.301046652990966
-    },
-    {
-      "Metric": "Annualized Return (%)",
-      "V0 Fixed Grid": 4.973736303169406,
-      "V1 Dynamic + Risk": 11.572656002642443,
-      "Difference (V1-V0)": 6.598919699473037
-    },
-    {
-      "Metric": "Max Drawdown (%)",
-      "V0 Fixed Grid": -8.281687595401232,
-      "V1 Dynamic + Risk": -12.325516021891659,
-      "Difference (V1-V0)": -4.0438284264904265
-    },
-    {
-      "Metric": "Calmar Ratio",
-      "V0 Fixed Grid": 0.6005703844626171,
-      "V1 Dynamic + Risk": 0.938918580129867,
-      "Difference (V1-V0)": 0.33834819566724983
-    },
-    {
-      "Metric": "Completed Cycles",
-      "V0 Fixed Grid": 1566.0,
-      "V1 Dynamic + Risk": 1170.0,
-      "Difference (V1-V0)": -396.0
-    },
-    {
-      "Metric": "Open Positions",
-      "V0 Fixed Grid": 39.0,
-      "V1 Dynamic + Risk": 18.0,
-      "Difference (V1-V0)": -21.0
-    },
-    {
-      "Metric": "Realized Profit (USDT)",
-      "V0 Fixed Grid": 532.7541979922917,
-      "V1 Dynamic + Risk": 1191.1186413092141,
-      "Difference (V1-V0)": 658.3644433169225
-    },
-    {
-      "Metric": "Unrealized P&L (USDT)",
-      "V0 Fixed Grid": -226.68923612689196,
-      "V1 Dynamic + Risk": -456.02227985408535,
-      "Difference (V1-V0)": -229.3330437271934
-    },
-    {
-      "Metric": "Total Fees (USDT)",
-      "V0 Fixed Grid": 107.47376729112548,
-      "V1 Dynamic + Risk": 237.10942806937732,
-      "Difference (V1-V0)": 129.63566077825183
-    },
-    {
-      "Metric": "Final Cash (USDT)",
-      "V0 Fixed Grid": 2218.1474564194305,
-      "V1 Dynamic + Risk": 2391.1186413091978,
-      "Difference (V1-V0)": 172.9711848897673
-    },
-    {
-      "Metric": "Final BTC",
-      "V0 Fixed Grid": 0.012412317163383004,
-      "V1 Dynamic + Risk": 0.01533377084150632,
-      "Difference (V1-V0)": 0.0029214536781233154
-    },
-    {
-      "Metric": "Recenter Count",
-      "V0 Fixed Grid": 0.0,
-      "V1 Dynamic + Risk": 131.0,
-      "Difference (V1-V0)": 131.0
-    },
-    {
-      "Metric": "Risk Halt Triggered",
-      "V0 Fixed Grid": 0.0,
-      "V1 Dynamic + Risk": 0.0,
-      "Difference (V1-V0)": 0.0
-    }
-  ],
-  "monthly_comparison": [
-    {
-      "month": "2024-01",
-      "v0_ending_equity": 3004.838711820802,
-      "v0_net_pnl": 4.838711820802018,
-      "v1_ending_equity": 3014.3548450683647,
-      "v1_net_pnl": 14.354845068364739,
-      "equity_difference": 9.51613324756272,
-      "net_pnl_difference": 9.51613324756272
-    },
-    {
-      "month": "2024-02",
-      "v0_ending_equity": 3035.115138234423,
-      "v0_net_pnl": 30.27642641362081,
-      "v1_ending_equity": 3104.1749100954235,
-      "v1_net_pnl": 89.82006502705872,
-      "equity_difference": 69.05977186100063,
-      "net_pnl_difference": 59.543638613437906
-    },
-    {
-      "month": "2024-03",
-      "v0_ending_equity": 3079.24220958456,
-      "v0_net_pnl": 44.12707135013716,
-      "v1_ending_equity": 3235.085221767468,
-      "v1_net_pnl": 130.91031167204437,
-      "equity_difference": 155.84301218290784,
-      "net_pnl_difference": 86.78324032190721
-    },
-    {
-      "month": "2024-04",
-      "v0_ending_equity": 3067.5331167513427,
-      "v0_net_pnl": -11.709092833217255,
-      "v1_ending_equity": 3200.3482463622313,
-      "v1_net_pnl": -34.736975405236535,
-      "equity_difference": 132.81512961088856,
-      "net_pnl_difference": -23.02788257201928
-    },
-    {
-      "month": "2024-05",
-      "v0_ending_equity": 3117.3156129372187,
-      "v0_net_pnl": 49.78249618587597,
-      "v1_ending_equity": 3348.0363183803215,
-      "v1_net_pnl": 147.68807201809022,
-      "equity_difference": 230.72070544310282,
-      "net_pnl_difference": 97.90557583221425
-    },
-    {
-      "month": "2024-06",
-      "v0_ending_equity": 3105.1911993380454,
-      "v0_net_pnl": -12.124413599173295,
-      "v1_ending_equity": 3312.0672247027665,
-      "v1_net_pnl": -35.969093677555065,
-      "equity_difference": 206.87602536472104,
-      "net_pnl_difference": -23.84468007838177
-    },
-    {
-      "month": "2024-07",
-      "v0_ending_equity": 3137.2583845157633,
-      "v0_net_pnl": 32.067185177717874,
-      "v1_ending_equity": 3400.7076822451427,
-      "v1_net_pnl": 88.64045754237623,
-      "equity_difference": 263.4492977293794,
-      "net_pnl_difference": 56.57327236465835
-    },
-    {
-      "month": "2024-08",
-      "v0_ending_equity": 3137.053199649156,
-      "v0_net_pnl": -0.20518486660739654,
-      "v1_ending_equity": 3364.3465900668507,
-      "v1_net_pnl": -36.36109217829198,
-      "equity_difference": 227.2933904176948,
-      "net_pnl_difference": -36.15590731168459
-    },
-    {
-      "month": "2024-09",
-      "v0_ending_equity": 3178.916569777641,
-      "v0_net_pnl": 41.86337012848526,
-      "v1_ending_equity": 3483.595236753904,
-      "v1_net_pnl": 119.24864668705322,
-      "equity_difference": 304.6786669762628,
-      "net_pnl_difference": 77.38527655856797
-    },
-    {
-      "month": "2024-10",
-      "v0_ending_equity": 3215.2425742870796,
-      "v0_net_pnl": 36.32600450943846,
-      "v1_ending_equity": 3591.362383465231,
-      "v1_net_pnl": 107.76714671132686,
-      "equity_difference": 376.1198091781512,
-      "net_pnl_difference": 71.4411422018884
-    },
-    {
-      "month": "2024-11",
-      "v0_ending_equity": 3247.5840081316082,
-      "v0_net_pnl": 32.34143384452864,
-      "v1_ending_equity": 3687.308637203962,
-      "v1_net_pnl": 95.94625373873123,
-      "equity_difference": 439.72462907235376,
-      "net_pnl_difference": 63.60481989420259
-    },
-    {
-      "month": "2024-12",
-      "v0_ending_equity": 3245.1755192745177,
-      "v0_net_pnl": -2.4084888570905605,
-      "v1_ending_equity": 3680.163453594545,
-      "v1_net_pnl": -7.145183609417018,
-      "equity_difference": 434.9879343200273,
-      "net_pnl_difference": -4.736694752326457
-    },
-    {
-      "month": "2025-01",
-      "v0_ending_equity": 3308.7165247989915,
-      "v0_net_pnl": 63.5410055244738,
-      "v1_ending_equity": 3867.7594466504293,
-      "v1_net_pnl": 187.59599305588426,
-      "equity_difference": 559.0429218514378,
-      "net_pnl_difference": 124.05498753141046
-    },
-    {
-      "month": "2025-02",
-      "v0_ending_equity": 3232.3614896087797,
-      "v0_net_pnl": -76.35503519021177,
-      "v1_ending_equity": 3644.805560788015,
-      "v1_net_pnl": -222.95388586241415,
-      "equity_difference": 412.4440711792354,
-      "net_pnl_difference": -146.5988506722024
-    },
-    {
-      "month": "2025-03",
-      "v0_ending_equity": 3248.4891967780013,
-      "v0_net_pnl": 16.127707169221594,
-      "v1_ending_equity": 3616.892017488684,
-      "v1_net_pnl": -27.913543299331195,
-      "equity_difference": 368.4028207106826,
-      "net_pnl_difference": -44.04125046855279
-    },
-    {
-      "month": "2025-04",
-      "v0_ending_equity": 3358.7208078975937,
-      "v0_net_pnl": 110.23161111959234,
-      "v1_ending_equity": 3834.1812574426567,
-      "v1_net_pnl": 217.2892399539728,
-      "equity_difference": 475.46044954506306,
-      "net_pnl_difference": 107.05762883438047
-    },
-    {
-      "month": "2025-05",
-      "v0_ending_equity": 3404.69869228434,
-      "v0_net_pnl": 45.977884386746155,
-      "v1_ending_equity": 3970.582314456646,
-      "v1_net_pnl": 136.40105701398943,
-      "equity_difference": 565.8836221723063,
-      "net_pnl_difference": 90.42317262724328
-    },
-    {
-      "month": "2025-06",
-      "v0_ending_equity": 3421.152960218843,
-      "v0_net_pnl": 16.45426793450315,
-      "v1_ending_equity": 4019.3966426623215,
-      "v1_net_pnl": 48.81432820567534,
-      "equity_difference": 598.2436824434785,
-      "net_pnl_difference": 32.36006027117219
-    },
-    {
-      "month": "2025-07",
-      "v0_ending_equity": 3425.8735999780024,
-      "v0_net_pnl": 4.72063975915944,
-      "v1_ending_equity": 4033.401207281161,
-      "v1_net_pnl": 14.004564618839595,
-      "equity_difference": 607.5276073031587,
-      "net_pnl_difference": 9.283924859680155
-    },
-    {
-      "month": "2025-08",
-      "v0_ending_equity": 3407.829334386417,
-      "v0_net_pnl": -18.044265591585372,
-      "v1_ending_equity": 3979.8698860261175,
-      "v1_net_pnl": -53.53132125504362,
-      "equity_difference": 572.0405516397004,
-      "net_pnl_difference": -35.48705566345825
-    },
-    {
-      "month": "2025-09",
-      "v0_ending_equity": 3438.137693646578,
-      "v0_net_pnl": 30.30835926016107,
-      "v1_ending_equity": 4069.7846851645954,
-      "v1_net_pnl": 89.91479913847797,
-      "equity_difference": 631.6469915180173,
-      "net_pnl_difference": 59.606439878316905
-    },
-    {
-      "month": "2025-10",
-      "v0_ending_equity": 3445.92589887854,
-      "v0_net_pnl": 7.788205231961911,
-      "v1_ending_equity": 4070.658125874257,
-      "v1_net_pnl": 0.873440709661736,
-      "equity_difference": 624.7322269957172,
-      "net_pnl_difference": -6.914764522300175
-    },
-    {
-      "month": "2025-11",
-      "v0_ending_equity": 3316.8122478411096,
-      "v0_net_pnl": -129.11365103743037,
-      "v1_ending_equity": 3776.6781745477087,
-      "v1_net_pnl": -293.9799513265484,
-      "equity_difference": 459.8659267065991,
-      "net_pnl_difference": -164.86630028911804
-    },
-    {
-      "month": "2025-12",
-      "v0_ending_equity": 3306.0649618653997,
-      "v0_net_pnl": -10.747285975709929,
-      "v1_ending_equity": 3735.0963614551288,
-      "v1_net_pnl": -41.58181309257998,
-      "equity_difference": 429.03139958972906,
-      "net_pnl_difference": -30.83452711687005
-    }
-  ],
-  "v0_monthly_grid_cashflow": [
-    {
-      "month": "2024-01",
-      "monthly_grid_cashflow": 17.740325344276705,
-      "completed_cycles": 25,
-      "cumulative_grid_cashflow": 17.740325344276705
-    },
-    {
-      "month": "2024-02",
-      "monthly_grid_cashflow": 18.874633780108148,
-      "completed_cycles": 33,
-      "cumulative_grid_cashflow": 36.61495912438485
-    },
-    {
-      "month": "2024-03",
-      "monthly_grid_cashflow": 43.72572060324848,
-      "completed_cycles": 99,
-      "cumulative_grid_cashflow": 80.34067972763333
-    },
-    {
-      "month": "2024-04",
-      "monthly_grid_cashflow": 27.733219118592515,
-      "completed_cycles": 61,
-      "cumulative_grid_cashflow": 108.07389884622584
-    },
-    {
-      "month": "2024-05",
-      "monthly_grid_cashflow": 17.575551036691316,
-      "completed_cycles": 38,
-      "cumulative_grid_cashflow": 125.64944988291717
-    },
-    {
-      "month": "2024-06",
-      "monthly_grid_cashflow": 7.648570928465027,
-      "completed_cycles": 17,
-      "cumulative_grid_cashflow": 133.2980208113822
-    },
-    {
-      "month": "2024-07",
-      "monthly_grid_cashflow": 23.068315064374367,
-      "completed_cycles": 48,
-      "cumulative_grid_cashflow": 156.36633587575656
-    },
-    {
-      "month": "2024-08",
-      "monthly_grid_cashflow": 33.014978737989665,
-      "completed_cycles": 63,
-      "cumulative_grid_cashflow": 189.3813146137462
-    },
-    {
-      "month": "2024-09",
-      "monthly_grid_cashflow": 14.609100870481214,
-      "completed_cycles": 29,
-      "cumulative_grid_cashflow": 203.9904154842274
-    },
-    {
-      "month": "2024-10",
-      "monthly_grid_cashflow": 13.630293775216003,
-      "completed_cycles": 30,
-      "cumulative_grid_cashflow": 217.6207092594434
-    },
-    {
-      "month": "2024-11",
-      "monthly_grid_cashflow": 31.698633196372192,
-      "completed_cycles": 97,
-      "cumulative_grid_cashflow": 249.3193424558156
-    },
-    {
-      "month": "2024-12",
-      "monthly_grid_cashflow": 32.63088145870715,
-      "completed_cycles": 117,
-      "cumulative_grid_cashflow": 281.9502239145227
-    },
-    {
-      "month": "2025-01",
-      "monthly_grid_cashflow": 34.75282961079924,
-      "completed_cycles": 130,
-      "cumulative_grid_cashflow": 316.70305352532193
-    },
-    {
-      "month": "2025-02",
-      "monthly_grid_cashflow": 22.096753391803055,
-      "completed_cycles": 74,
-      "cumulative_grid_cashflow": 338.799806917125
-    },
-    {
-      "month": "2025-03",
-      "monthly_grid_cashflow": 32.774167920773984,
-      "completed_cycles": 100,
-      "cumulative_grid_cashflow": 371.573974837899
-    },
-    {
-      "month": "2025-04",
-      "monthly_grid_cashflow": 25.550031473129124,
-      "completed_cycles": 76,
-      "cumulative_grid_cashflow": 397.12400631102815
-    },
-    {
-      "month": "2025-05",
-      "monthly_grid_cashflow": 15.012880645696306,
-      "completed_cycles": 58,
-      "cumulative_grid_cashflow": 412.1368869567245
-    },
-    {
-      "month": "2025-06",
-      "monthly_grid_cashflow": 12.019819420324161,
-      "completed_cycles": 47,
-      "cumulative_grid_cashflow": 424.15670637704864
-    },
-    {
-      "month": "2025-07",
-      "monthly_grid_cashflow": 10.312572976557313,
-      "completed_cycles": 46,
-      "cumulative_grid_cashflow": 434.46927935360594
-    },
-    {
-      "month": "2025-08",
-      "monthly_grid_cashflow": 11.2846559460016,
-      "completed_cycles": 50,
-      "cumulative_grid_cashflow": 445.7539352996075
-    },
-    {
-      "month": "2025-09",
-      "monthly_grid_cashflow": 7.914917617150046,
-      "completed_cycles": 34,
-      "cumulative_grid_cashflow": 453.66885291675754
-    },
-    {
-      "month": "2025-10",
-      "monthly_grid_cashflow": 32.623273534182594,
-      "completed_cycles": 139,
-      "cumulative_grid_cashflow": 486.29212645094015
-    },
-    {
-      "month": "2025-11",
-      "monthly_grid_cashflow": 25.001108179094217,
-      "completed_cycles": 86,
-      "cumulative_grid_cashflow": 511.29323463003436
-    },
-    {
-      "month": "2025-12",
-      "monthly_grid_cashflow": 21.460963362255654,
-      "completed_cycles": 69,
-      "cumulative_grid_cashflow": 532.7541979922901
-    }
-  ],
-  "recenter_diagnostics": {
-    "count": 131,
-    "first_10": [
+  "system_audit": {
+    "status": "PASS",
+    "checks": [
       {
-        "decision_time": "2024-01-08T19:11:00+00:00",
-        "direction": "UP",
-        "close": 47087.32,
-        "old_regime_id": 0,
-        "new_regime_id": 1,
-        "old_reference": 42000.0,
-        "new_reference": 47000.0,
-        "old_floor": 27000.0,
-        "old_ceiling": 57000.0,
-        "new_floor": 32000.0,
-        "new_ceiling": 62000.0
+        "Strategy": "V0",
+        "Test": "Cash reconciliation",
+        "Actual": 1.7644197214394808e-10,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-01-12T22:21:00+00:00",
-        "direction": "DOWN",
-        "close": 41750.07,
-        "old_regime_id": 1,
-        "new_regime_id": 2,
-        "old_reference": 47000.0,
-        "new_reference": 42000.0,
-        "old_floor": 32000.0,
-        "old_ceiling": 62000.0,
-        "new_floor": 27000.0,
-        "new_ceiling": 57000.0
+        "Strategy": "V0",
+        "Test": "Grid cashflow reconciliation",
+        "Actual": 1.5916157281026244e-12,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-02-09T11:44:00+00:00",
-        "direction": "UP",
-        "close": 47014.18,
-        "old_regime_id": 2,
-        "new_regime_id": 3,
-        "old_reference": 42000.0,
-        "new_reference": 47000.0,
-        "old_floor": 27000.0,
-        "old_ceiling": 57000.0,
-        "new_floor": 32000.0,
-        "new_ceiling": 62000.0
+        "Strategy": "V0",
+        "Test": "Equity identity",
+        "Actual": 0.0,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-02-15T00:21:00+00:00",
-        "direction": "UP",
-        "close": 52073.71,
-        "old_regime_id": 3,
-        "new_regime_id": 4,
-        "old_reference": 47000.0,
-        "new_reference": 52000.0,
-        "old_floor": 32000.0,
-        "old_ceiling": 62000.0,
-        "new_floor": 37000.0,
-        "new_ceiling": 67000.0
+        "Strategy": "V1",
+        "Test": "Cash reconciliation",
+        "Actual": 1.5916157281026244e-11,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-02-27T12:32:00+00:00",
-        "direction": "UP",
-        "close": 57041.25,
-        "old_regime_id": 4,
-        "new_regime_id": 5,
-        "old_reference": 52000.0,
-        "new_reference": 57000.0,
-        "old_floor": 37000.0,
-        "old_ceiling": 67000.0,
-        "new_floor": 42000.0,
-        "new_ceiling": 72000.0
+        "Strategy": "V1",
+        "Test": "Grid cashflow reconciliation",
+        "Actual": 4.547473508864641e-13,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-02-28T16:54:00+00:00",
-        "direction": "UP",
-        "close": 62031.52,
-        "old_regime_id": 5,
-        "new_regime_id": 6,
-        "old_reference": 57000.0,
-        "new_reference": 62000.0,
-        "old_floor": 42000.0,
-        "old_ceiling": 72000.0,
-        "new_floor": 47000.0,
-        "new_ceiling": 77000.0
+        "Strategy": "V1",
+        "Test": "Equity identity",
+        "Actual": 0.0,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-03-04T17:25:00+00:00",
-        "direction": "UP",
-        "close": 67121.39,
-        "old_regime_id": 6,
-        "new_regime_id": 7,
-        "old_reference": 62000.0,
-        "new_reference": 67000.0,
-        "old_floor": 47000.0,
-        "old_ceiling": 77000.0,
-        "new_floor": 52000.0,
-        "new_ceiling": 82000.0
+        "Strategy": "V1",
+        "Test": "Cash reserve",
+        "Actual": 1600.073544347807,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-03-05T19:37:00+00:00",
-        "direction": "DOWN",
-        "close": 61925.72,
-        "old_regime_id": 7,
-        "new_regime_id": 8,
-        "old_reference": 67000.0,
-        "new_reference": 62000.0,
-        "old_floor": 52000.0,
-        "old_ceiling": 82000.0,
-        "new_floor": 47000.0,
-        "new_ceiling": 77000.0
+        "Strategy": "V1",
+        "Test": "Max positions",
+        "Actual": 18.0,
+        "Status": "PASS"
       },
       {
-        "decision_time": "2024-03-06T08:10:00+00:00",
-        "direction": "UP",
-        "close": 67036.6,
-        "old_regime_id": 8,
-        "new_regime_id": 9,
-        "old_reference": 62000.0,
-        "new_reference": 67000.0,
-        "old_floor": 47000.0,
-        "old_ceiling": 77000.0,
-        "new_floor": 52000.0,
-        "new_ceiling": 82000.0
-      },
-      {
-        "decision_time": "2024-03-11T11:44:00+00:00",
-        "direction": "UP",
-        "close": 72042.0,
-        "old_regime_id": 9,
-        "new_regime_id": 10,
-        "old_reference": 67000.0,
-        "new_reference": 72000.0,
-        "old_floor": 52000.0,
-        "old_ceiling": 82000.0,
-        "new_floor": 57000.0,
-        "new_ceiling": 87000.0
-      }
-    ],
-    "last_10": [
-      {
-        "decision_time": "2025-11-05T16:54:00+00:00",
-        "direction": "UP",
-        "close": 104010.0,
-        "old_regime_id": 121,
-        "new_regime_id": 122,
-        "old_reference": 99000.0,
-        "new_reference": 104000.0,
-        "old_floor": 84000.0,
-        "old_ceiling": 114000.0,
-        "new_floor": 89000.0,
-        "new_ceiling": 119000.0
-      },
-      {
-        "decision_time": "2025-11-13T18:25:00+00:00",
-        "direction": "DOWN",
-        "close": 98896.13,
-        "old_regime_id": 122,
-        "new_regime_id": 123,
-        "old_reference": 104000.0,
-        "new_reference": 99000.0,
-        "old_floor": 89000.0,
-        "old_ceiling": 119000.0,
-        "new_floor": 84000.0,
-        "new_ceiling": 114000.0
-      },
-      {
-        "decision_time": "2025-11-16T17:56:00+00:00",
-        "direction": "DOWN",
-        "close": 93875.83,
-        "old_regime_id": 123,
-        "new_regime_id": 124,
-        "old_reference": 99000.0,
-        "new_reference": 94000.0,
-        "old_floor": 84000.0,
-        "old_ceiling": 114000.0,
-        "new_floor": 79000.0,
-        "new_ceiling": 109000.0
-      },
-      {
-        "decision_time": "2025-11-19T17:37:00+00:00",
-        "direction": "DOWN",
-        "close": 88897.56,
-        "old_regime_id": 124,
-        "new_regime_id": 125,
-        "old_reference": 94000.0,
-        "new_reference": 89000.0,
-        "old_floor": 79000.0,
-        "old_ceiling": 109000.0,
-        "new_floor": 74000.0,
-        "new_ceiling": 104000.0
-      },
-      {
-        "decision_time": "2025-11-21T07:33:00+00:00",
-        "direction": "DOWN",
-        "close": 83400.0,
-        "old_regime_id": 125,
-        "new_regime_id": 126,
-        "old_reference": 89000.0,
-        "new_reference": 83000.0,
-        "old_floor": 74000.0,
-        "old_ceiling": 104000.0,
-        "new_floor": 68000.0,
-        "new_ceiling": 98000.0
-      },
-      {
-        "decision_time": "2025-11-23T22:00:00+00:00",
-        "direction": "UP",
-        "close": 88046.01,
-        "old_regime_id": 126,
-        "new_regime_id": 127,
-        "old_reference": 83000.0,
-        "new_reference": 88000.0,
-        "old_floor": 68000.0,
-        "old_ceiling": 98000.0,
-        "new_floor": 73000.0,
-        "new_ceiling": 103000.0
-      },
-      {
-        "decision_time": "2025-12-03T04:24:00+00:00",
-        "direction": "UP",
-        "close": 93001.48,
-        "old_regime_id": 127,
-        "new_regime_id": 128,
-        "old_reference": 88000.0,
-        "new_reference": 93000.0,
-        "old_floor": 73000.0,
-        "old_ceiling": 103000.0,
-        "new_floor": 78000.0,
-        "new_ceiling": 108000.0
-      },
-      {
-        "decision_time": "2025-12-07T14:29:00+00:00",
-        "direction": "DOWN",
-        "close": 87920.99,
-        "old_regime_id": 128,
-        "new_regime_id": 129,
-        "old_reference": 93000.0,
-        "new_reference": 88000.0,
-        "old_floor": 78000.0,
-        "old_ceiling": 108000.0,
-        "new_floor": 73000.0,
-        "new_ceiling": 103000.0
-      },
-      {
-        "decision_time": "2025-12-09T16:01:00+00:00",
-        "direction": "UP",
-        "close": 93044.94,
-        "old_regime_id": 129,
-        "new_regime_id": 130,
-        "old_reference": 88000.0,
-        "new_reference": 93000.0,
-        "old_floor": 73000.0,
-        "old_ceiling": 103000.0,
-        "new_floor": 78000.0,
-        "new_ceiling": 108000.0
-      },
-      {
-        "decision_time": "2025-12-14T23:11:00+00:00",
-        "direction": "DOWN",
-        "close": 87985.77,
-        "old_regime_id": 130,
-        "new_regime_id": 131,
-        "old_reference": 93000.0,
-        "new_reference": 88000.0,
-        "old_floor": 78000.0,
-        "old_ceiling": 108000.0,
-        "new_floor": 73000.0,
-        "new_ceiling": 103000.0
+        "Strategy": "V1",
+        "Test": "Max deployed",
+        "Actual": 1800.0,
+        "Status": "PASS"
       }
     ]
   },
-  "risk_diagnostics": {
-    "risk_halt_log": [],
-    "min_cash_observed": 1600.073544347807,
-    "max_open_positions_observed": 18,
-    "max_deployed_capital_observed": 1800.0,
-    "max_btc_market_value_observed": 1686.248492594405,
-    "blocked_buy_counts": {
-      "risk_halt": 0,
-      "cash_reserve": 0,
-      "max_open_positions": 6657,
-      "max_deployed_capital": 0,
-      "max_entry_btc_exposure": 0
+  "comparison": [
+    {
+      "Metric": "Final Equity",
+      "V0": 3306.0649618653997,
+      "V1": 3735.096361455128,
+      "Difference": 429.03139958972815
+    },
+    {
+      "Metric": "Net Return %",
+      "V0": 10.20216539551333,
+      "V1": 24.503212048504253,
+      "Difference": 14.301046652990923
+    },
+    {
+      "Metric": "Max Drawdown %",
+      "V0": -8.281687595401232,
+      "V1": -12.325516021891659,
+      "Difference": -4.043828426490426
+    },
+    {
+      "Metric": "Calmar",
+      "V0": 0.6005703844626171,
+      "V1": 0.9389185801298653,
+      "Difference": 0.33834819566724816
+    },
+    {
+      "Metric": "Cycles",
+      "V0": 1566.0,
+      "V1": 1170.0,
+      "Difference": -396.0
+    },
+    {
+      "Metric": "Open Positions",
+      "V0": 39.0,
+      "V1": 18.0,
+      "Difference": -21.0
     }
-  }
+  ]
 }
