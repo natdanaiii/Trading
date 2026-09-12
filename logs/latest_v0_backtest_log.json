@@ -1,0 +1,59 @@
+{
+  "log_schema_version": 2,
+  "strategy": "V0 Fixed Grid",
+  "run_info": {
+    "generated_at_utc": "2026-09-12T14:09:49.619884+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "notebook": "Grid_trading_V0.ipynb",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "parameters": {
+    "initial_capital": 3000.0,
+    "floor": 38000.0,
+    "ceiling": 127000.0,
+    "gap": 1000.0,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001
+  },
+  "derived": {
+    "number_of_grids": 89,
+    "capital_per_grid": 33.70786516853933
+  },
+  "market_range_diagnostics": {
+    "historical_low": 38555.0,
+    "historical_high": 126199.63,
+    "candles_low_below_floor": 0,
+    "candles_high_above_ceiling": 0
+  },
+  "summary": {
+    "initial_capital": 3000.0,
+    "final_equity": 3306.0649618653997,
+    "net_return": 0.1020216539551333,
+    "annualized_return": 0.04973736303169406,
+    "max_drawdown": -0.08281687595401233,
+    "calmar_ratio": 0.6005703844626171,
+    "completed_cycles": 1566,
+    "open_positions": 39,
+    "final_cash": 2218.1474564194305,
+    "final_btc": 0.012412317163383004,
+    "realized_profit": 532.7541979922917,
+    "unrealized_pnl": -226.68923612689196,
+    "total_fee_usdt_equiv": 107.47376729112548
+  },
+  "audit": {
+    "status": "PASS",
+    "checks": {
+      "cash_reconciliation": true,
+      "realized_profit_reconciliation": true,
+      "equity_identity": true,
+      "cash_never_negative": true
+    }
+  }
+}
