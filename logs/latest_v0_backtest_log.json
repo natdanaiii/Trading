@@ -1,8 +1,8 @@
 {
-  "log_schema_version": 2,
-  "strategy": "V0 Fixed Grid",
+  "log_schema_version": 3,
+  "strategy": "V0-B Initialized Fixed Grid",
   "run_info": {
-    "generated_at_utc": "2026-09-13T07:27:37.074614+00:00",
+    "generated_at_utc": "2026-09-13T08:15:36.849906+00:00",
     "repository": "natdanaiii/Trading",
     "branch": "main",
     "notebook": "Grid_trading_V0.ipynb",
@@ -14,7 +14,7 @@
     "data_first_time": "2024-01-01T00:00:00+00:00",
     "data_last_time": "2025-12-31T23:59:00+00:00"
   },
-  "parameters": {
+  "trading_config": {
     "initial_capital": 3000.0,
     "floor": 38000.0,
     "ceiling": 127000.0,
@@ -22,9 +22,25 @@
     "buy_fee": 0.001,
     "sell_fee": 0.001
   },
+  "backtest_config": {
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01"
+  },
   "derived": {
     "number_of_grids": 89,
     "capital_per_grid": 33.70786516853933
+  },
+  "initialization": {
+    "start_time": "2024-01-01T00:00:00+00:00",
+    "start_price": 42283.58,
+    "initial_sell_positions": 85,
+    "initial_buy_levels": 4,
+    "initial_cash": 134.83146067416249,
+    "initial_btc": 0.06769302340971399,
+    "initial_btc_cost_usdt": 2865.168539325843,
+    "initial_buy_fee_usdt": 2.8651685393258415,
+    "initial_btc_allocation_pct": 95.5056179775281
   },
   "market_range_diagnostics": {
     "historical_low": 38555.0,
@@ -34,18 +50,23 @@
   },
   "summary": {
     "initial_capital": 3000.0,
-    "final_equity": 3306.0649618653997,
-    "net_return": 0.1020216539551333,
-    "annualized_return": 0.04973736303169406,
-    "max_drawdown": -0.08281687595401233,
-    "calmar_ratio": 0.6005703844626171,
-    "completed_cycles": 1566,
+    "initial_market_price": 42283.58,
+    "initial_cash": 134.83146067416249,
+    "initial_btc": 0.06769302340971399,
+    "initial_sell_positions": 85,
+    "initial_buy_levels": 4,
+    "final_equity": 6143.4710789295605,
+    "net_return": 1.0478236929765203,
+    "annualized_return": 0.4306716399287376,
+    "max_drawdown": -0.22739628628980446,
+    "calmar_ratio": 1.8939255647291862,
+    "completed_cycles": 1585,
     "open_positions": 39,
-    "final_cash": 2218.1474564194305,
-    "final_btc": 0.012412317163383004,
-    "realized_profit": 532.7541979922917,
-    "unrealized_pnl": -226.68923612689196,
-    "total_fee_usdt_equiv": 107.47376729112548
+    "final_cash": 5009.175982120956,
+    "final_btc": 0.012941450457392112,
+    "realized_profit": 3323.7827236941057,
+    "unrealized_pnl": -180.31164476454524,
+    "total_fee_usdt_equiv": 111.54912960610856
   },
   "audit": {
     "status": "PASS",
@@ -53,7 +74,11 @@
       "cash_reconciliation": true,
       "realized_profit_reconciliation": true,
       "equity_identity": true,
-      "cash_never_negative": true
+      "cash_never_negative": true,
+      "initial_allocation_reconciliation": true,
+      "all_grid_slots_initialized_or_reserved": true,
+      "closed_trade_count_reconciliation": true
     }
-  }
+  },
+  "trade_history_file": "logs/latest_v0_trade_history.csv"
 }
