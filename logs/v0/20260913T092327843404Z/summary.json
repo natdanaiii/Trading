@@ -1,0 +1,108 @@
+{
+  "log_schema_version": 5,
+  "strategy": "V0-B Initialized Fixed Grid (Grid-Consistent Seed Sizing)",
+  "run_info": {
+    "run_id": "20260913T092327843404Z",
+    "generated_at_utc": "2026-09-13T09:23:27.843404+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "notebook": "Grid_trading_V0.ipynb",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "trading_config": {
+    "initial_capital": 3000.0,
+    "floor": 38000.0,
+    "ceiling": 127000.0,
+    "gap": 1000.0,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001
+  },
+  "backtest_config": {
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01"
+  },
+  "derived": {
+    "number_of_grids": 89,
+    "normal_order_size_usdt": 58.67832472189169
+  },
+  "initialization": {
+    "normal_order_size_usdt": 58.67832472189169,
+    "funding_weight": 51.12620399813086,
+    "initial_sell_positions": 85,
+    "initial_buy_levels": 4,
+    "reserved_cash_usdt": 234.71329888756676,
+    "seeded_btc_cost_usdt": 2765.286701112433,
+    "start_time": "2024-01-01T00:00:00+00:00",
+    "start_price": 42283.58,
+    "initial_cash": 234.71329888756648,
+    "initial_btc": 0.06533319587441082,
+    "initial_btc_cost_usdt": 2765.286701112433,
+    "initial_buy_fee_usdt": 2.7652867011124327,
+    "initial_btc_allocation_pct": 92.17622337041443
+  },
+  "market_range_diagnostics": {
+    "historical_low": 38555.0,
+    "historical_high": 126199.63,
+    "candles_low_below_floor": 0,
+    "candles_high_above_ceiling": 0
+  },
+  "summary": {
+    "initial_capital": 3000.0,
+    "initial_market_price": 42283.58,
+    "normal_order_size_usdt": 58.67832472189169,
+    "initial_cash": 234.71329888756648,
+    "initial_btc": 0.06533319587441082,
+    "initial_sell_positions": 85,
+    "initial_buy_levels": 4,
+    "final_equity": 5767.251210792757,
+    "net_return": 0.9224170702642522,
+    "annualized_return": 0.386203103112467,
+    "max_drawdown": -0.20010359990362936,
+    "calmar_ratio": 1.9300157683243275,
+    "completed_cycles": 1585,
+    "open_positions": 39,
+    "final_cash": 3873.4149700221556,
+    "final_btc": 0.021607241319568166,
+    "realized_profit": 3122.882814514794,
+    "unrealized_pnl": -355.6316037219461,
+    "total_fee_usdt_equiv": 187.10991054833033
+  },
+  "buy_hold_benchmark": {
+    "entry_price": 42283.58,
+    "net_btc": 0.07087857745252413,
+    "entry_fee_usdt_equiv": 3.0,
+    "final_equity": 6212.3811498458745,
+    "net_return": 1.0707937166152917,
+    "annualized_return": 0.4386675614302762,
+    "max_drawdown": -0.35986218872532505,
+    "calmar_ratio": 1.218987643531234
+  },
+  "comparison_vs_buy_hold": {
+    "final_equity_difference_usdt": -445.1299390531176,
+    "excess_return": -0.14837664635103942,
+    "drawdown_improvement": 0.1597585888216957,
+    "calmar_difference": 0.7110281247930936
+  },
+  "audit": {
+    "status": "PASS",
+    "checks": {
+      "cash_reconciliation": true,
+      "realized_profit_reconciliation": true,
+      "equity_identity": true,
+      "cash_never_negative": true,
+      "initial_allocation_reconciliation": true,
+      "all_grid_slots_initialized_or_reserved": true,
+      "initial_seed_quantity_matches_normal_grid": true,
+      "final_btc_matches_open_positions": true,
+      "closed_trade_count_reconciliation": true
+    }
+  },
+  "trade_history_file": "logs/v0/20260913T092327843404Z/trade_history.csv"
+}
