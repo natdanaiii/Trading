@@ -1,0 +1,34 @@
+name: Apply V0 DCA benchmark
+
+on:
+  push:
+    branches:
+      - tmp-v0-dca-minimal
+    paths:
+      - scripts/apply_v0_dca.py
+      - .github/workflows/apply_v0_dca.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: tmp-v0-dca-minimal
+
+      - name: Apply benchmark-only notebook edit
+        run: python scripts/apply_v0_dca.py
+
+      - name: Commit clean notebook update
+        run: |
+          rm scripts/apply_v0_dca.py
+          rm .github/workflows/apply_v0_dca.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Grid_trading_V0.ipynb scripts/apply_v0_dca.py .github/workflows/apply_v0_dca.yml
+          git diff --cached --quiet || git commit -m "Add Monthly DCA benchmark to clean V0-B notebook"
+          git push origin HEAD:tmp-v0-dca-minimal
