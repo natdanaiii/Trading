@@ -1,0 +1,306 @@
+{
+  "log_schema_version": 9,
+  "strategy": "V0 Fixed Grid (KZM + Monthly Realized Compounding)",
+  "run_info": {
+    "run_id": "20260919T144903877881Z",
+    "generated_at_utc": "2026-09-19T14:49:03.877881+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "notebook": "01.IS/Grid_trading_V0.ipynb",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "trading_config": {
+    "initial_capital": 3000.0,
+    "floor": 38000.0,
+    "ceiling": 127000.0,
+    "gap": 1000.0,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001
+  },
+  "backtest_config": {
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01"
+  },
+  "derived": {
+    "number_of_grids": 89,
+    "compounding_frequency": "monthly",
+    "compounding_source": "realized_pnl_only",
+    "capital_base_formula": "initial_capital + cumulative_realized_pnl_through_previous_month",
+    "base_order_size_formula": "monthly_capital_base / number_of_grids",
+    "initial_base_order_size_usdt": 33.70786516853933,
+    "final_capital_base_usdt": 3554.135086036132,
+    "final_base_order_size_usdt": 39.93410209029362
+  },
+  "initialization": {
+    "normal_order_size_usdt": 33.70786516853933,
+    "funding_weight": 89.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "reserved_cash_usdt": 3000.0,
+    "seeded_btc_cost_usdt": 0.0,
+    "start_time": "2024-01-01T00:00:00+00:00",
+    "start_price": 42283.58,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_btc_cost_usdt": 0.0,
+    "initial_buy_fee_usdt": 0.0,
+    "initial_btc_allocation_pct": 0.0
+  },
+  "market_range_diagnostics": {
+    "historical_low": 38555.0,
+    "historical_high": 126199.63,
+    "candles_low_below_floor": 0,
+    "candles_high_above_ceiling": 0
+  },
+  "summary": {
+    "initial_capital": 3000.0,
+    "initial_market_price": 42283.58,
+    "compounding_frequency": "MONTHLY",
+    "compounding_method": "REALIZED_PNL_ONLY",
+    "initial_base_order_size_usdt": 33.70786516853933,
+    "final_capital_base_usdt": 3554.135086036132,
+    "final_base_order_size_usdt": 39.93410209029362,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "final_equity": 3314.9171947748837,
+    "net_return": 0.10497239825829463,
+    "annualized_return": 0.051140838234758484,
+    "max_drawdown": -0.09576263815464214,
+    "calmar_ratio": 0.5340374828873635,
+    "completed_cycles": 1566,
+    "open_positions": 39,
+    "final_cash": 2039.8259094503235,
+    "final_btc": 0.014547828641865865,
+    "realized_profit": 579.5513787361838,
+    "unrealized_pnl": -264.6341839612835,
+    "total_fee_usdt_equiv": 118.4289541585522
+  },
+  "monthly_compounding_schedule": [
+    {
+      "month": "2024-01",
+      "effective_time": "2024-01-01T00:00:00+00:00",
+      "capital_base_usdt": 3000.0,
+      "cumulative_realized_pnl_usdt": 0.0,
+      "base_order_size_usdt": 33.70786516853933
+    },
+    {
+      "month": "2024-02",
+      "effective_time": "2024-02-01T00:00:00+00:00",
+      "capital_base_usdt": 3017.7403253442767,
+      "cumulative_realized_pnl_usdt": 17.740325344276705,
+      "base_order_size_usdt": 33.90719466678963
+    },
+    {
+      "month": "2024-03",
+      "effective_time": "2024-03-01T00:00:00+00:00",
+      "capital_base_usdt": 3036.7026942177326,
+      "cumulative_realized_pnl_usdt": 36.70269421773284,
+      "base_order_size_usdt": 34.12025499121048
+    },
+    {
+      "month": "2024-04",
+      "effective_time": "2024-04-01T00:00:00+00:00",
+      "capital_base_usdt": 3080.954352581044,
+      "cumulative_realized_pnl_usdt": 80.95435258104396,
+      "base_order_size_usdt": 34.61746463574207
+    },
+    {
+      "month": "2024-05",
+      "effective_time": "2024-05-01T00:00:00+00:00",
+      "capital_base_usdt": 3109.42995160079,
+      "cumulative_realized_pnl_usdt": 109.42995160079016,
+      "base_order_size_usdt": 34.93741518652573
+    },
+    {
+      "month": "2024-06",
+      "effective_time": "2024-06-01T00:00:00+00:00",
+      "capital_base_usdt": 3127.6041518502498,
+      "cumulative_realized_pnl_usdt": 127.60415185024954,
+      "base_order_size_usdt": 35.14161968371067
+    },
+    {
+      "month": "2024-07",
+      "effective_time": "2024-07-01T00:00:00+00:00",
+      "capital_base_usdt": 3135.5677817148708,
+      "cumulative_realized_pnl_usdt": 135.56778171487053,
+      "base_order_size_usdt": 35.23109867095361
+    },
+    {
+      "month": "2024-08",
+      "effective_time": "2024-08-01T00:00:00+00:00",
+      "capital_base_usdt": 3159.6703090232118,
+      "cumulative_realized_pnl_usdt": 159.67030902321181,
+      "base_order_size_usdt": 35.50191358453047
+    },
+    {
+      "month": "2024-09",
+      "effective_time": "2024-09-01T00:00:00+00:00",
+      "capital_base_usdt": 3194.4424583803648,
+      "cumulative_realized_pnl_usdt": 194.4424583803648,
+      "base_order_size_usdt": 35.892611891914214
+    },
+    {
+      "month": "2024-10",
+      "effective_time": "2024-10-01T00:00:00+00:00",
+      "capital_base_usdt": 3209.9562172783612,
+      "cumulative_realized_pnl_usdt": 209.95621727836135,
+      "base_order_size_usdt": 36.066923789644505
+    },
+    {
+      "month": "2024-11",
+      "effective_time": "2024-11-01T00:00:00+00:00",
+      "capital_base_usdt": 3224.4386497111104,
+      "cumulative_realized_pnl_usdt": 224.4386497111106,
+      "base_order_size_usdt": 36.229647749563036
+    },
+    {
+      "month": "2024-12",
+      "effective_time": "2024-12-01T00:00:00+00:00",
+      "capital_base_usdt": 3258.4782407312705,
+      "cumulative_realized_pnl_usdt": 258.4782407312705,
+      "base_order_size_usdt": 36.6121150643963
+    },
+    {
+      "month": "2025-01",
+      "effective_time": "2025-01-01T00:00:00+00:00",
+      "capital_base_usdt": 3293.9111878678123,
+      "cumulative_realized_pnl_usdt": 293.9111878678125,
+      "base_order_size_usdt": 37.01023806593047
+    },
+    {
+      "month": "2025-02",
+      "effective_time": "2025-02-01T00:00:00+00:00",
+      "capital_base_usdt": 3332.0215863565245,
+      "cumulative_realized_pnl_usdt": 332.0215863565246,
+      "base_order_size_usdt": 37.438444790522745
+    },
+    {
+      "month": "2025-03",
+      "effective_time": "2025-03-01T00:00:00+00:00",
+      "capital_base_usdt": 3356.5638727864866,
+      "cumulative_realized_pnl_usdt": 356.56387278648674,
+      "base_order_size_usdt": 37.71420081782569
+    },
+    {
+      "month": "2025-04",
+      "effective_time": "2025-04-01T00:00:00+00:00",
+      "capital_base_usdt": 3393.205408606585,
+      "cumulative_realized_pnl_usdt": 393.20540860658497,
+      "base_order_size_usdt": 38.12590346748972
+    },
+    {
+      "month": "2025-05",
+      "effective_time": "2025-05-01T00:00:00+00:00",
+      "capital_base_usdt": 3422.0583220323456,
+      "cumulative_realized_pnl_usdt": 422.0583220323457,
+      "base_order_size_usdt": 38.450093505981414
+    },
+    {
+      "month": "2025-06",
+      "effective_time": "2025-06-01T00:00:00+00:00",
+      "capital_base_usdt": 3439.0365319397156,
+      "cumulative_realized_pnl_usdt": 439.0365319397155,
+      "base_order_size_usdt": 38.64085990943501
+    },
+    {
+      "month": "2025-07",
+      "effective_time": "2025-07-01T00:00:00+00:00",
+      "capital_base_usdt": 3452.8069573448715,
+      "cumulative_realized_pnl_usdt": 452.8069573448714,
+      "base_order_size_usdt": 38.79558379039182
+    },
+    {
+      "month": "2025-08",
+      "effective_time": "2025-08-01T00:00:00+00:00",
+      "capital_base_usdt": 3464.6678440166347,
+      "cumulative_realized_pnl_usdt": 464.66784401663466,
+      "base_order_size_usdt": 38.928852179962185
+    },
+    {
+      "month": "2025-09",
+      "effective_time": "2025-09-01T00:00:00+00:00",
+      "capital_base_usdt": 3477.6935962661496,
+      "cumulative_realized_pnl_usdt": 477.6935962661496,
+      "base_order_size_usdt": 39.07520894681067
+    },
+    {
+      "month": "2025-10",
+      "effective_time": "2025-10-01T00:00:00+00:00",
+      "capital_base_usdt": 3486.860765141667,
+      "cumulative_realized_pnl_usdt": 486.8607651416668,
+      "base_order_size_usdt": 39.178210844288394
+    },
+    {
+      "month": "2025-11",
+      "effective_time": "2025-11-01T00:00:00+00:00",
+      "capital_base_usdt": 3524.763765173922,
+      "cumulative_realized_pnl_usdt": 524.7637651739219,
+      "base_order_size_usdt": 39.60408724914519
+    },
+    {
+      "month": "2025-12",
+      "effective_time": "2025-12-01T00:00:00+00:00",
+      "capital_base_usdt": 3554.135086036132,
+      "cumulative_realized_pnl_usdt": 554.1350860361322,
+      "base_order_size_usdt": 39.93410209029362
+    }
+  ],
+  "cash_flow_summary": {
+    "initial_cash_usdt": 3000.0,
+    "total_buy_cash_outflow_usdt": 59665.1822385907,
+    "total_sell_cash_inflow_usdt": 58705.00814804103,
+    "net_trading_cash_flow_usdt": -960.1740905496699,
+    "final_cash_usdt": 2039.8259094503235,
+    "capital_tied_in_open_positions_usdt": 1539.7254692858444,
+    "realized_profit_usdt": 579.5513787361838,
+    "unrealized_pnl_usdt": -264.6341839612835,
+    "total_portfolio_pnl_usdt": 314.9171947748837
+  },
+  "monthly_dca_benchmark": {
+    "number_of_buys": 24,
+    "dca_amount_usdt": 125.0,
+    "total_invested_usdt": 3000.0,
+    "total_buy_fee_usdt_equiv": 3.0,
+    "final_cash": 0.0,
+    "final_btc": 0.039751113886337515,
+    "first_buy_time": "2024-01-01T00:00:00+00:00",
+    "last_buy_time": "2025-12-01T00:00:00+00:00",
+    "final_equity": 3484.1143751547656,
+    "net_return": 0.16137145838492195,
+    "annualized_return": 0.0776143976907517,
+    "max_drawdown": -0.34834785757661013,
+    "calmar_ratio": 0.2228071624458962
+  },
+  "comparison_vs_monthly_dca": {
+    "final_equity_difference_usdt": -169.19718037988196,
+    "excess_return": -0.05639906012662732,
+    "drawdown_improvement": 0.252585219421968,
+    "calmar_difference": 0.3112303204414673
+  },
+  "audit": {
+    "status": "PASS",
+    "checks": {
+      "cash_reconciliation": true,
+      "realized_profit_reconciliation": true,
+      "equity_identity": true,
+      "cash_never_negative": true,
+      "initial_allocation_reconciliation": true,
+      "all_grid_slots_initialized_or_reserved": true,
+      "initial_kzm_order_size_equals_capital_per_grid": true,
+      "monthly_realized_compounding_reconciliation": true,
+      "position_order_size_matches_monthly_base": true,
+      "final_btc_matches_open_positions": true,
+      "closed_trade_count_reconciliation": true
+    }
+  },
+  "trade_history_file": "01.IS/logs/v0/20260919T144903877881Z/trade_history.csv"
+}
