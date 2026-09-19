@@ -1,0 +1,141 @@
+{
+  "log_schema_version": 1,
+  "strategy": "V1 Rule-Based Dynamic Order Sizing",
+  "run_info": {
+    "run_id": "20260919T143630320687Z",
+    "generated_at_utc": "2026-09-19T14:36:30.320687+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "notebook": "01.IS/Grid_trading_V1.ipynb",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "trading_config": {
+    "initial_capital": 3000.0,
+    "floor": 38000.0,
+    "ceiling": 127000.0,
+    "gap": 1000.0,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001
+  },
+  "backtest_config": {
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01"
+  },
+  "derived": {
+    "number_of_grids": 89,
+    "base_order_size_formula": "initial_capital / number_of_grids",
+    "base_order_size_usdt": 33.70786516853933,
+    "dynamic_order_size_formula": "base_order_size * alpha",
+    "alpha_formula": "clip(alpha_max - (alpha_max - alpha_min) * btc_allocation, alpha_min, alpha_max)",
+    "alpha_min": 0.15,
+    "alpha_max": 1.0
+  },
+  "initialization": {
+    "normal_order_size_usdt": 33.70786516853933,
+    "funding_weight": 89.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "reserved_cash_usdt": 3000.0,
+    "seeded_btc_cost_usdt": 0.0,
+    "start_time": "2024-01-01T00:00:00+00:00",
+    "start_price": 42283.58,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_btc_cost_usdt": 0.0,
+    "initial_buy_fee_usdt": 0.0,
+    "initial_btc_allocation_pct": 0.0
+  },
+  "market_range_diagnostics": {
+    "historical_low": 38555.0,
+    "historical_high": 126199.63,
+    "candles_low_below_floor": 0,
+    "candles_high_above_ceiling": 0
+  },
+  "summary": {
+    "initial_capital": 3000.0,
+    "initial_market_price": 42283.58,
+    "base_order_size_usdt": 33.70786516853933,
+    "alpha_min": 0.15,
+    "alpha_max": 1.0,
+    "average_alpha": 0.9051286395925618,
+    "min_alpha_observed": 0.7295789572448498,
+    "max_alpha_observed": 1.0,
+    "average_order_size_usdt": 30.5099541435695,
+    "min_order_size_usdt": 24.592549120612915,
+    "max_order_size_usdt": 33.70786516853933,
+    "final_btc_allocation_pct": 28.616425817941067,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "final_equity": 3278.134004839611,
+    "net_return": 0.09271133494653694,
+    "annualized_return": 0.04529668617702661,
+    "max_drawdown": -0.07446100688640944,
+    "calmar_ratio": 0.6083276075775725,
+    "completed_cycles": 1566,
+    "open_positions": 39,
+    "final_cash": 2340.049219131983,
+    "final_btc": 0.010702838981871255,
+    "realized_profit": 483.28596250347607,
+    "unrealized_pnl": -205.1519576638824,
+    "total_fee_usdt_equiv": 97.3253589024922
+  },
+  "cash_flow_summary": {
+    "initial_cash_usdt": 3000.0,
+    "total_buy_cash_outflow_usdt": 48968.47640042905,
+    "total_sell_cash_inflow_usdt": 48308.52561956101,
+    "net_trading_cash_flow_usdt": -659.9507808680355,
+    "final_cash_usdt": 2340.049219131983,
+    "capital_tied_in_open_positions_usdt": 1143.2367433715103,
+    "realized_profit_usdt": 483.28596250347607,
+    "unrealized_pnl_usdt": -205.1519576638824,
+    "total_portfolio_pnl_usdt": 278.13400483961095
+  },
+  "monthly_dca_benchmark": {
+    "number_of_buys": 24,
+    "dca_amount_usdt": 125.0,
+    "total_invested_usdt": 3000.0,
+    "total_buy_fee_usdt_equiv": 3.0,
+    "final_cash": 0.0,
+    "final_btc": 0.039751113886337515,
+    "first_buy_time": "2024-01-01T00:00:00+00:00",
+    "last_buy_time": "2025-12-01T00:00:00+00:00",
+    "final_equity": 3484.1143751547656,
+    "net_return": 0.16137145838492195,
+    "annualized_return": 0.0776143976907517,
+    "max_drawdown": -0.34834785757661013,
+    "calmar_ratio": 0.2228071624458962
+  },
+  "comparison_vs_monthly_dca": {
+    "final_equity_difference_usdt": -205.9803703151547,
+    "excess_return": -0.06866012343838501,
+    "drawdown_improvement": 0.2738868506902007,
+    "calmar_difference": 0.3855204451316763
+  },
+  "audit": {
+    "status": "PASS",
+    "checks": {
+      "cash_reconciliation": true,
+      "realized_profit_reconciliation": true,
+      "equity_identity": true,
+      "cash_never_negative": true,
+      "initial_cash_is_full_capital": true,
+      "initial_btc_is_zero": true,
+      "base_order_size_matches_kzm": true,
+      "alpha_formula_reconciliation": true,
+      "dynamic_order_size_reconciliation": true,
+      "alpha_within_bounds": true,
+      "final_btc_matches_open_positions": true,
+      "closed_trade_count_reconciliation": true
+    }
+  },
+  "trade_history_file": "01.IS/logs/v1/20260919T143630320687Z/trade_history.csv"
+}
