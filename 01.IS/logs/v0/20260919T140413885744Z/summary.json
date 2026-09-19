@@ -1,0 +1,114 @@
+{
+  "log_schema_version": 7,
+  "strategy": "V0 Fixed Grid (KZM Baseline)",
+  "run_info": {
+    "run_id": "20260919T140413885744Z",
+    "generated_at_utc": "2026-09-19T14:04:13.885744+00:00",
+    "repository": "natdanaiii/Trading",
+    "branch": "main",
+    "notebook": "01.IS/Grid_trading_V0.ipynb",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01",
+    "data_rows": 1052640,
+    "data_first_time": "2024-01-01T00:00:00+00:00",
+    "data_last_time": "2025-12-31T23:59:00+00:00"
+  },
+  "trading_config": {
+    "initial_capital": 3000.0,
+    "floor": 38000.0,
+    "ceiling": 127000.0,
+    "gap": 1000.0,
+    "buy_fee": 0.001,
+    "sell_fee": 0.001
+  },
+  "backtest_config": {
+    "timeframe": "1m",
+    "start_date": "2024-01-01",
+    "end_date": "2026-01-01"
+  },
+  "derived": {
+    "number_of_grids": 89,
+    "order_size_formula": "initial_capital / number_of_grids",
+    "normal_order_size_usdt": 33.70786516853933
+  },
+  "initialization": {
+    "normal_order_size_usdt": 33.70786516853933,
+    "funding_weight": 89.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "reserved_cash_usdt": 3000.0,
+    "seeded_btc_cost_usdt": 0.0,
+    "start_time": "2024-01-01T00:00:00+00:00",
+    "start_price": 42283.58,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_btc_cost_usdt": 0.0,
+    "initial_buy_fee_usdt": 0.0,
+    "initial_btc_allocation_pct": 0.0
+  },
+  "market_range_diagnostics": {
+    "historical_low": 38555.0,
+    "historical_high": 126199.63,
+    "candles_low_below_floor": 0,
+    "candles_high_above_ceiling": 0
+  },
+  "summary": {
+    "initial_capital": 3000.0,
+    "initial_market_price": 42283.58,
+    "normal_order_size_usdt": 33.70786516853933,
+    "initial_cash": 3000.0,
+    "initial_btc": 0.0,
+    "initial_sell_positions": 0,
+    "initial_buy_levels": 89,
+    "final_equity": 3306.0649618653997,
+    "net_return": 0.1020216539551333,
+    "annualized_return": 0.04973736303169406,
+    "max_drawdown": -0.08281687595401233,
+    "calmar_ratio": 0.6005703844626171,
+    "completed_cycles": 1566,
+    "open_positions": 39,
+    "final_cash": 2218.1474564194305,
+    "final_btc": 0.012412317163383004,
+    "realized_profit": 532.7541979922917,
+    "unrealized_pnl": -226.68923612706453,
+    "total_fee_usdt_equiv": 107.47376729112548
+  },
+  "monthly_dca_benchmark": {
+    "number_of_buys": 24,
+    "dca_amount_usdt": 125.0,
+    "total_invested_usdt": 3000.0,
+    "total_buy_fee_usdt_equiv": 3.0,
+    "final_cash": 0.0,
+    "final_btc": 0.039751113886337515,
+    "first_buy_time": "2024-01-01T00:00:00+00:00",
+    "last_buy_time": "2025-12-01T00:00:00+00:00",
+    "final_equity": 3484.1143751547656,
+    "net_return": 0.16137145838492195,
+    "annualized_return": 0.0776143976907517,
+    "max_drawdown": -0.34834785757661013,
+    "calmar_ratio": 0.2228071624458962
+  },
+  "comparison_vs_monthly_dca": {
+    "final_equity_difference_usdt": -178.04941328936593,
+    "excess_return": -0.059349804429788655,
+    "drawdown_improvement": 0.2655309816225978,
+    "calmar_difference": 0.3777632220167209
+  },
+  "audit": {
+    "status": "PASS",
+    "checks": {
+      "cash_reconciliation": true,
+      "realized_profit_reconciliation": true,
+      "equity_identity": true,
+      "cash_never_negative": true,
+      "initial_allocation_reconciliation": true,
+      "all_grid_slots_initialized_or_reserved": true,
+      "kzm_order_size_equals_capital_per_grid": true,
+      "final_btc_matches_open_positions": true,
+      "closed_trade_count_reconciliation": true
+    }
+  },
+  "trade_history_file": "01.IS/logs/v0/20260919T140413885744Z/trade_history.csv"
+}
